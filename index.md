@@ -5,216 +5,242 @@ layout: null
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nithin Prasad</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Inter:wght@300;500;800&display=swap" rel="stylesheet">
+    <title>Nithin Prasad | Systems Engineer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --bg: #080808; 
-            --card-bg: rgba(15, 15, 15, 0.9); 
-            --text: #e0e0e0; 
-            --accent: #22c55e; /* Ghost Emerald */
-            --accent-dim: rgba(34, 197, 94, 0.1);
-            --border: #1a1a1a;
+            --bg: #020617; 
+            --accent: #22d3ee; /* Cyan-400 */
+            --text: #f1f5f9;
+            --secondary: #94a3b8;
+            --card-bg: rgba(15, 23, 42, 0.7);
+            --border: rgba(34, 211, 238, 0.2);
         }
 
-        @keyframes scanline {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100%); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        body { 
-            background-color: var(--bg);
-            color: var(--text); 
-            font-family: 'Inter', sans-serif; 
+        body, html { 
             margin: 0; 
-            padding: 0;
-            line-height: 1.6;
+            padding: 0; 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: 'Space Grotesk', sans-serif; 
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
-        /* Scanline Overlay Effect */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            background-size: 100% 2px, 3px 100%;
-            z-index: 999;
+        /* Interactive Canvas Background */
+        #bg-canvas { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            z-index: -1; 
             pointer-events: none;
-            opacity: 0.3;
         }
 
-        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
-        
-        header { margin-bottom: 60px; border-left: 2px solid var(--accent); padding-left: 20px; }
-        .cmd { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 0.9rem; margin-bottom: 5px; }
-        .cmd::after { content: "_"; animation: pulse 1s infinite; }
-        
-        h1 { font-size: clamp(2.5rem, 8vw, 4rem); margin: 10px 0; font-weight: 800; letter-spacing: -2px; color: #fff; }
-        .tagline { font-size: 1rem; color: #888; max-width: 600px; font-weight: 300; }
+        .container { max-width: 900px; margin: 0 auto; padding: 80px 24px; position: relative; }
 
-        .section-label { 
-            font-family: 'JetBrains Mono', monospace; 
-            font-size: 0.7rem; 
-            color: var(--accent); 
-            text-transform: uppercase; 
-            letter-spacing: 4px; 
-            margin: 60px 0 20px 0;
-            display: block; 
-            opacity: 0.7;
-        }
+        header { margin-bottom: 80px; }
+        .label { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 0.8rem; letter-spacing: 4px; display: block; margin-bottom: 15px; }
+        h1 { font-size: clamp(3rem, 10vw, 5.5rem); margin: 0; font-weight: 700; letter-spacing: -4px; line-height: 0.9; }
+        .bio { max-width: 650px; font-size: 1.15rem; color: var(--secondary); margin-top: 30px; border-left: 3px solid var(--accent); padding-left: 20px; line-height: 1.6; }
 
-        /* Smartphone Friendly Grid */
-        .grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 15px; 
-        }
-
+        /* Project Grid */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 40px; }
         .card { 
             background: var(--card-bg); 
-            padding: 30px; 
+            padding: 35px; 
             border: 1px solid var(--border); 
-            transition: all 0.3s ease;
-            position: relative;
+            backdrop-filter: blur(12px);
+            border-radius: 4px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-
         .card:hover { 
             border-color: var(--accent); 
-            background: var(--accent-dim);
-            transform: scale(1.02);
+            transform: translateY(-8px); 
+            box-shadow: 0 15px 40px rgba(34, 211, 238, 0.1); 
+            background: rgba(15, 23, 42, 0.9);
         }
+        .card h3 { margin: 0 0 12px 0; font-size: 1.4rem; font-weight: 700; color: #fff; }
+        .card p { color: var(--secondary); font-size: 0.95rem; margin-bottom: 25px; }
+        .tags { display: flex; flex-wrap: wrap; gap: 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--accent); }
+        .tags span { border: 1px solid var(--border); padding: 2px 8px; border-radius: 2px; }
 
-        .card h3 { margin: 0 0 10px 0; font-size: 1.3rem; font-weight: 700; color: #fff; }
-        .card p { color: #aaa; font-size: 0.9rem; margin-bottom: 20px; }
-        
-        .tags { display: flex; flex-wrap: wrap; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; }
-        .tags span { background: #000; padding: 4px 8px; border: 1px solid var(--border); color: var(--accent); }
+        /* Experience & Education sections */
+        .section-label { margin-top: 100px; }
+        .item { padding: 30px 0; border-bottom: 1px solid var(--border); transition: 0.3s; }
+        .item:hover { background: rgba(34, 211, 238, 0.02); padding-left: 15px; }
+        .item-meta { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--accent); margin-bottom: 8px; font-weight: 500; }
+        .item h4 { margin: 0; font-size: 1.25rem; font-weight: 600; color: #fff; }
+        .item-desc { color: var(--secondary); font-size: 1rem; margin-top: 10px; max-width: 750px; }
 
-        /* Timeline Items */
-        .item { 
-            padding: 20px; 
-            border-bottom: 1px solid var(--border); 
-            transition: 0.3s;
-        }
-        .item:hover { background: rgba(255,255,255,0.02); }
-        .item h4 { margin: 0; font-size: 1.1rem; color: #fff; }
-        .item-date { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--accent); margin-bottom: 5px; }
-        .item-sub { color: #777; font-size: 0.85rem; }
-
-        /* Mobile Optimized Buttons */
+        /* Responsive CTA Button */
         .btn { 
-            display: block;
-            text-align: center;
-            margin-top: 40px; 
-            padding: 18px; 
-            background: transparent; 
-            border: 1px solid var(--accent);
+            display: inline-block; 
+            margin-top: 60px; 
+            padding: 20px 45px; 
+            border: 1px solid var(--accent); 
             color: var(--accent); 
             text-decoration: none; 
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace; 
+            font-weight: 700; 
             font-size: 0.9rem;
-            transition: 0.3s;
             text-transform: uppercase;
             letter-spacing: 2px;
+            transition: all 0.4s ease;
         }
-
         .btn:hover { 
             background: var(--accent); 
-            color: #000;
-            box-shadow: 0 0 20px var(--accent);
+            color: var(--bg); 
+            box-shadow: 0 0 40px var(--accent); 
+            transform: scale(1.05);
         }
 
-        @media (min-width: 600px) {
-            .btn { display: inline-block; width: auto; padding: 18px 40px; }
-        }
+        footer { margin-top: 150px; padding: 60px 0; border-top: 1px solid var(--border); text-align: center; color: #334155; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; letter-spacing: 2px; }
 
-        footer { 
-            margin-top: 100px; 
-            padding: 40px 0; 
-            border-top: 1px solid var(--border); 
-            text-align: center; 
-            color: #444; 
-            font-family: 'JetBrains Mono', monospace; 
-            font-size: 0.7rem; 
+        @media (max-width: 600px) {
+            .btn { width: 100%; box-sizing: border-box; text-align: center; }
         }
     </style>
 </head>
 <body>
+    <canvas id="bg-canvas"></canvas>
 
     <div class="container">
         <header>
-            <span class="cmd">sudo systemctl start nithin.service</span>
+            <span class="label">STATUS: ACTIVE // SYSTEM_OVERVIEW</span>
             <h1>Nithin Prasad</h1>
-            <p class="tagline">Master of Computer Applications student. Ambitious Software Developer proficient in Python and AI-driven automation focused on scalable project success.</p>
+            <p class="bio">Ambitious Software Developer and MCA candidate. Proficient in Python and AI-driven automation, with a focus on autonomous data systems and national-level technical leadership.</p>
         </header>
 
-        <span class="section-label">Deployment_Logs // Projects</span>
+        <span class="label section-label">VERIFIED_PROJECTS</span>
         <div class="grid">
             <div class="card">
                 <h3>Insight Gen</h3>
-                <p>An Agentic AI Analytics platform engineered for autonomous data analysis and professional report generation from natural language queries.</p>
+                <p>Agentic AI platform designed for autonomous data analysis and professional report generation from natural language queries.</p>
                 <div class="tags"><span>Python</span> <span>CrewAI</span> <span>Streamlit</span> <span>Pandas</span></div>
             </div>
             <div class="card">
                 <h3>Revo</h3>
-                <p>Android application featuring content rating systems and insightful discussions designed for social news delivery.</p>
-                <div class="tags"><span>Java</span> <span>Android</span> <span>XML</span></div>
+                <p>Social news Android application featuring advanced content rating systems and real-time community discussions.</p>
+                <div class="tags"><span>Java</span> <span>Android</span> <span>Firebase</span></div>
             </div>
             <div class="card">
                 <h3>PROFEXIA</h3>
-                <p>Web-based skill-barter platform developed for community-driven skill exchange without financial dependency.</p>
+                <p>Web-based skill-barter application built for community-driven exchange without financial dependency.</p>
                 <div class="tags"><span>Django</span> <span>Python</span> <span>SQL</span></div>
             </div>
             <div class="card">
-                <h3>Vax_Manager</h3>
-                <p>Digital management system developed to streamline tracking and notification for pediatric vaccination schedules.</p>
+                <h3>Vaccination_Manager</h3>
+                <p>Management system developed to streamline child vaccination tracking and automated notification schedules.</p>
                 <div class="tags"><span>JavaScript</span> <span>HTML5</span> <span>SQL</span></div>
             </div>
         </div>
 
-        <span class="section-label">System_Stats // Education</span>
+        <span class="label section-label">LEADERSHIP_HISTORY</span>
         <div class="item">
-            <div class="item-date">2024 - Present // GPA: 7.9</div>
+            <div class="item-meta">MAR 2026 // Hackathon</div>
+            <h4>Main Coordinator | Hackastra 2026</h4>
+            <p class="item-desc">Directed end-to-end execution of a 19-hour hackathon themed "Design for Human Weakness".</p>
+        </div>
+        <div class="item">
+            <div class="item-meta">OCT 2025 // Dept Level</div>
+            <h4>Main Coordinator | Pragyan Tech Fest</h4>
+            <p class="item-desc">Led strategic planning, sponsorship acquisition, and execution for the departmental technical festival.</p>
+        </div>
+        <div class="item">
+            <div class="item-meta">APR 2025 - APR 2026</div>
+            <h4>MCA Representative | CSI SB ASIET</h4>
+            <p class="item-desc">Coordinating technical symposiums and department workshops for the Computer Society of India.</p>
+        </div>
+
+        <span class="label section-label">ACADEMIC_CREDENTIALS</span>
+        <div class="item">
+            <div class="item-meta">2024 - PRESENT // GPA: 7.9</div>
             <h4>Master of Computer Applications</h4>
             <p class="item-sub">Adi Shankara Institute of Engineering and Technology, Kalady.</p>
         </div>
         <div class="item">
-            <div class="item-date">2021 - 2024 // GPA: 6.7</div>
+            <div class="item-meta">2021 - 2024 // GPA: 6.7</div>
             <h4>Bachelor of Computer Applications</h4>
-            <p class="item-sub">DePaul Institute of Science and Technology, Aluva.</p>
+            <p class="item-sub">DePaul Institute of Science and Technology, Angamaly.</p>
         </div>
 
-        <span class="section-label">Event_Buffer // Leadership</span>
-        <div class="item">
-            <div class="item-date">MAR 2026 // Hackathon</div>
-            <h4>Main Coordinator | Hackastra 2026</h4>
-            <p class="item-sub">Organized a 19-hour national-level hackathon themed "Design for Human Weakness", managing end-to-end execution.</p>
-        </div>
-        <div class="item">
-            <div class="item-date">OCT 2025 // Dept Level</div>
-            <h4>Main Coordinator | Pragyan Tech Fest</h4>
-            <p class="item-sub">Led strategic planning, sponsorship acquisition, and execution for the departmental festival.</p>
-        </div>
-        <div class="item">
-            <div class="item-date">APR 2025 // Computer Society of India</div>
-            <h4>MCA Representative | CSI SB ASIET</h4>
-            <p class="item-sub">Organizing technical symposiums and department workshops.</p>
-        </div>
-
-        <span class="section-label">Access_Protocol</span>
         <a href="./assets/docs/resume_tcs.pdf" class="btn">_EXEC_DOWNLOAD_RESUME</a>
 
         <footer>
-            NITHIN_PRASAD_v4.0 // BUILT_WITH_GITHUB_PAGES
+            NITHIN_PRASAD // 2026 // SYSTEM_BUILD_SUCCESSFUL
         </footer>
     </div>
 
+    <script>
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let points = [];
+        const mouse = { x: null, y: null };
+
+        function init() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            points = [];
+            // Create a network of nodes
+            const count = window.innerWidth < 600 ? 30 : 60;
+            for (let i = 0; i < count; i++) {
+                points.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.4,
+                    vy: (Math.random() - 0.5) * 0.4
+                });
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = 'rgba(34, 211, 238, 0.08)';
+            ctx.lineWidth = 1;
+
+            points.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                // Bounce off boundaries
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                // Connect nearby nodes
+                points.forEach(p2 => {
+                    let dx = p.x - p2.x;
+                    let dy = p.y - p2.y;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 180) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                });
+
+                // Interaction with mouse
+                if (mouse.x) {
+                    let dx = p.x - mouse.x;
+                    let dy = p.y - mouse.y;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 220) {
+                        ctx.strokeStyle = `rgba(34, 211, 238, ${0.4 - dist / 550})`;
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(mouse.x, mouse.y);
+                        ctx.stroke();
+                        ctx.strokeStyle = 'rgba(34, 211, 238, 0.08)';
+                    }
+                }
+            });
+            requestAnimationFrame(draw);
+        }
+
+        window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
+        window.addEventListener('resize', () => { init(); });
+        init();
+        draw();
+    </script>
 </body>
 </html>
