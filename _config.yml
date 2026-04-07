@@ -1,4 +1,4 @@
-theme: jekyll-theme-hacker
+theme: pages-themes/hacker@v0.2.0
 title: Nithin Prasad
 show_excerpts: true
 baseurl: ""
