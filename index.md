@@ -13,14 +13,14 @@ layout: null
 *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --bg: #0f172a;        /* Corporate Deep Slate */
-  --surface: #1e293b;   /* Slightly lighter slate */
-  --surface-hlt: #334155;
-  --border: #334155;    
-  --accent: #38bdf8;    /* Professional Sky Blue */
-  --accent-dim: rgba(56, 189, 248, 0.1);
-  --text: #f8fafc;      
-  --muted: #94a3b8;     
+  --bg: #07111F;        /* Aurora Circuit Deep Navy */
+  --surface: #0B1F2A;   /* Aurora Surface */
+  --surface-hlt: #123746;
+  --border: #183442;    
+  --accent: #14B8A6;    /* Electric Teal */
+  --accent-dim: rgba(20, 184, 166, 0.12);
+  --text: #E6F1F5;      
+  --muted: #8295A3;     
 }
 
 html { scroll-behavior: smooth; }
@@ -41,8 +41,9 @@ body::before {
   position: fixed;
   inset: 0;
   background: 
-    radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.04), transparent 25%),
-    radial-gradient(circle at 85% 30%, rgba(56, 189, 248, 0.04), transparent 25%);
+    radial-gradient(circle at 12% 45%, rgba(20, 184, 166, 0.11), transparent 30%),
+    radial-gradient(circle at 82% 25%, rgba(163, 230, 53, 0.07), transparent 27%),
+    radial-gradient(circle at 58% 80%, rgba(245, 158, 11, 0.045), transparent 25%);
   pointer-events: none;
   z-index: 0;
 }
@@ -66,14 +67,14 @@ body::before {
 }
 #cur-ring.expand { 
   width: 40px; height: 40px; 
-  background: rgba(248, 250, 252, 0.05); 
-  border-color: rgba(248, 250, 252, 0.4);
+  background: rgba(20, 184, 166, 0.08); 
+  border-color: rgba(20, 184, 166, 0.55);
 }
 
 /* ── NAV ── */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 800;
-  background: rgba(15, 23, 42, 0.85);
+  background: rgba(7, 17, 31, 0.90);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--border);
@@ -129,6 +130,91 @@ h1 {
   opacity: 0; animation: fadeup 0.8s forwards 0.6s;
 }
 
+/* ── Aurora System Status ── */
+.system-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  margin-bottom: 14px;
+  font-size: 0.68rem;
+  letter-spacing: 1.8px;
+  font-weight: 600;
+  color: #A3E635;
+  text-transform: uppercase;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #A3E635;
+  box-shadow: 0 0 12px rgba(163,230,53,.65);
+  animation: statusPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes statusPulse {
+  0%, 100% { opacity: .45; transform: scale(.85); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+/* ── Animated Professional Role Switcher ── */
+.role-switcher {
+  position: relative;
+  min-height: 1.8em;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.role-word {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  transform: translateY(115%);
+  filter: blur(2px);
+  transition:
+    transform 0.7s cubic-bezier(.22,.61,.36,1),
+    opacity 0.5s ease,
+    filter 0.5s ease;
+  white-space: nowrap;
+}
+
+.role-word.role-active {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+/* Gentle cursor-like accent while the role changes */
+.role-switcher::after {
+  content: '';
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 8px;
+  background: var(--accent);
+  opacity: 0.75;
+  animation: roleCursor 1s steps(1) infinite;
+}
+
+@keyframes roleCursor {
+  0%, 45% { opacity: 0.75; }
+  46%, 100% { opacity: 0.15; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  .status-dot { animation: none; }
+  .role-word {
+    transition: none;
+  }
+  .role-switcher::after {
+    animation: none;
+  }
+}
+
 .hero-bio {
   max-width: 560px;
   font-size: 1rem; color: var(--muted); line-height: 1.7;
@@ -182,7 +268,7 @@ h1 {
 .card:hover {
   border-color: var(--surface-hlt);
   transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+  box-shadow: 0 16px 32px rgba(0,0,0,0.35);
 }
 
 .card h3 {
@@ -224,7 +310,7 @@ h1 {
   font-size: 0.8rem; font-weight: 500;
   color: var(--accent); border: 1px solid var(--accent-dim);
   padding: 4px 12px; border-radius: 6px;
-  background: rgba(56, 189, 248, 0.05);
+  background: rgba(20, 184, 166, 0.06);
 }
 
 /* ── CTA ── */
@@ -266,6 +352,44 @@ footer .f-left { font-size: 0.85rem; color: var(--muted); }
   .tl-row { grid-template-columns: 1fr; gap: 12px; }
   .tl-meta { padding-top: 0; }
 }
+
+/* ── Aurora Circuit Background ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent 0 8%, rgba(20,184,166,.035) 8.1%, transparent 8.2% 100%),
+    linear-gradient(0deg, transparent 0 18%, rgba(20,184,166,.028) 18.1%, transparent 18.2% 100%);
+  background-size: 180px 180px;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,.85), transparent 88%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: -15%;
+  background:
+    radial-gradient(ellipse at 15% 45%, rgba(20,184,166,.10), transparent 25%),
+    radial-gradient(ellipse at 78% 20%, rgba(163,230,53,.06), transparent 23%),
+    radial-gradient(ellipse at 55% 85%, rgba(245,158,11,.035), transparent 22%);
+  filter: blur(28px);
+  animation: auroraDrift 16s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes auroraDrift {
+  from { transform: translate3d(-1%, 0, 0) scale(1); }
+  to   { transform: translate3d(1.5%, -1%, 0) scale(1.04); }
+}
+
+:root {
+  --cyan: #14B8A6;
+}
+
 </style>
 </head>
 <body>
@@ -279,6 +403,7 @@ footer .f-left { font-size: 0.85rem; color: var(--muted); }
   <div class="nav-inner">
     <a class="nav-logo" href="#">NITHIN PRASAD</a>
     <div class="nav-links">
+      <a href="#experience">Work</a>
       <a href="#projects">Projects</a>
       <a href="#leadership">Leadership</a>
       <a href="#education">Education</a>
@@ -294,7 +419,19 @@ footer .f-left { font-size: 0.85rem; color: var(--muted); }
     <div class="coord-tag">Kerala, India</div>
 
     <h1>Nithin Prasad</h1>
-    <h2 class="hero-role">Assistant Systems Engineer</h2>
+    <h2 class="hero-role role-switcher" aria-label="Assistant Systems Engineer and Android App Developer">
+      <span class="role-word role-active">Assistant Systems Engineer</span>
+      <span class="role-word">Android App Developer</span>
+    </h2>
+
+    <div class="system-status">
+      <span class="status-dot"></span>
+      SYSTEMS ONLINE
+    </div>
+
+    <div class="hero-stack" style="font-size:0.78rem; letter-spacing:1.5px; color:var(--accent); margin:-16px 0 28px; text-transform:uppercase;">
+      Python / Flutter / Android / Firebase / AI Systems
+    </div>
 
     <p class="hero-bio">
       Software developer proficient in Python and AI-driven automation.
@@ -305,7 +442,7 @@ footer .f-left { font-size: 0.85rem; color: var(--muted); }
     <div class="hero-chips">
       <div class="chip"><span class="chip-val">04</span><span class="chip-key">Projects</span></div>
       <div class="chip"><span class="chip-val">03</span><span class="chip-key">Leadership</span></div>
-      <div class="chip"><span class="chip-val">7.9</span><span class="chip-key">GPA</span></div>
+      <div class="chip"><span class="chip-val">8.3</span><span class="chip-key">GPA</span></div>
       <div class="chip"><span class="chip-val">19h</span><span class="chip-key">Hackathon</span></div>
     </div>
   </header>
@@ -369,12 +506,33 @@ footer .f-left { font-size: 0.85rem; color: var(--muted); }
       </div>
       <div class="tl-row sr d3">
         <div class="tl-meta">
-          <span class="tl-date">Apr 25–26</span>
+          <span class="tl-date">Apr 2025 – 2026</span>
           <span class="tl-cat">CSI SB</span>
         </div>
         <div class="tl-body">
           <h4>MCA Representative — CSI SB ASIET</h4>
           <p>Coordinating technical symposiums and department workshops for the Computer Society of India student branch.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="sec" id="experience">
+    <div class="sec-header sr">
+      <h2 class="sec-title">Experience</h2>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-row sr d1">
+        <div class="tl-meta">
+          <span class="tl-date">May 2026 – Current</span>
+          <span class="tl-cat">Freelance</span>
+        </div>
+        <div class="tl-body">
+          <h4>Freelance Android App Developer — GEM Group</h4>
+          <p>Mobile application development for GEM Group, delivering Android applications using Flutter and Dart with Firebase and REST API integrations.</p>
+          <span class="sub">Flutter · Dart · Firebase · REST APIs · Android Studio · Firebase Console</span>
         </div>
       </div>
     </div>
@@ -389,14 +547,14 @@ footer .f-left { font-size: 0.85rem; color: var(--muted); }
     <div class="timeline">
       <div class="tl-row sr d1">
         <div class="tl-meta">
-          <span class="tl-date">2024 – Now</span>
+          <span class="tl-date">2024 – 2026</span>
           <span class="tl-cat">Postgrad</span>
         </div>
         <div class="tl-body">
           <h4>Master of Computer Applications</h4>
           <p>Adi Shankara Institute of Engineering and Technology, Kalady.</p>
           <span class="sub">Focused on AI systems and software architecture</span>
-          <span class="gpa-tag">GPA 7.9 / 10</span>
+          <span class="gpa-tag">GPA 8.3 / 10</span>
         </div>
       </div>
       <div class="tl-row sr d2">
@@ -443,6 +601,18 @@ document.querySelectorAll('a,.card,.chip,.btn').forEach(el=>{
   el.addEventListener('mouseenter',()=>ring.classList.add('expand'));
   el.addEventListener('mouseleave',()=>ring.classList.remove('expand'));
 });
+
+// Interchangeable professional role animation
+const roles = document.querySelectorAll('.role-word');
+let roleIndex = 0;
+
+if (roles.length > 1) {
+  setInterval(() => {
+    roles[roleIndex].classList.remove('role-active');
+    roleIndex = (roleIndex + 1) % roles.length;
+    roles[roleIndex].classList.add('role-active');
+  }, 2800);
+}
 
 // Scroll reveal
 const obs = new IntersectionObserver(entries=>{
