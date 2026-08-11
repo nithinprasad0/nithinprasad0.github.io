@@ -407,7 +407,7 @@ body::before {
       <a href="#projects">Projects</a>
       <a href="#leadership">Leadership</a>
       <a href="#education">Education</a>
-      <a href="./assets/docs/resume_tcs.pdf">Résumé</a>
+      <a href="./assets/docs/resume.pdf">Résumé</a>
     </div>
   </div>
 </nav>
