@@ -573,7 +573,7 @@ body::before {
 
   <!-- CTA -->
   <div class="cta-wrap sr">
-    <a href="./assets/docs/resume_tcs.pdf" class="btn">Download Résumé</a>
+    <a href="./assets/docs/resume.pdf" class="btn">Download Résumé</a>
   </div>
 
   <!-- FOOTER -->
