@@ -819,13 +819,13 @@ layout: null
 
   <!-- =======================================================
        OPENING SCREEN
-       Image: assets/images/nithin-prasad-signature.png
+       Image: assets/docs/nithin-prasad-signature.png
        ======================================================= -->
   <section id="intro" aria-label="Portfolio introduction">
     <div class="intro-inner">
       <img
         class="signature"
-        src="assets/images/nithin-prasad-signature.png"
+        src="assets/docs/nithin-prasad-signature.png"
         alt="Nithin Prasad"
       >
 
@@ -877,7 +877,7 @@ layout: null
           <!-- Replace this file with the keyboard image supplied by you. -->
           <img
             class="keyboard"
-            src="assets/images/nithin-keyboard.png"
+            src="assets/docs/nithin-keyboard.png"
             alt="Keyboard composition spelling N-I-T-H-I-N"
           >
           <div class="visual-caption">SYSTEMS · MOBILE · AI</div>
