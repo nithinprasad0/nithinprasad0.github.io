@@ -2,7 +2,6 @@
 layout: null
 ---
 
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -920,7 +919,7 @@ layout: null
           </div>
           <div class="fact">
             <span class="fact-value">8.3</span>
-            <span class="fact-label">MCA CGPA</span>
+            <span class="fact-label">CGPA</span>
           </div>
           <div class="fact">
             <span class="fact-value">AI</span>
@@ -952,7 +951,7 @@ layout: null
         </article>
 
         <article class="timeline-item reveal">
-          <h3 class="item-title">Android App Development</h3>
+          <h3 class="item-title">Android App Developer</h3>
           <div class="item-date">Mobile Development</div>
           <p class="item-text">
             Developing Android applications and integrating application
