@@ -205,7 +205,7 @@ title: "Nithin Prasad — Portfolio"
       align-items: center;
       justify-content: flex-start;
       flex-wrap: wrap;
-      gap: 14px;
+      gap: 12px;
       margin-top: 38px;
     }
 
@@ -218,13 +218,14 @@ title: "Nithin Prasad — Portfolio"
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 156px;
-      padding: 15px 25px;
+      gap: 8px;
+      min-width: 140px;
+      padding: 13px 22px;
       border-radius: 6px;
       border: 1px solid #333;
       text-decoration: none;
       font-size: 15px;
-      transition: transform .25s ease, background .25s ease;
+      transition: transform .25s ease, background .25s ease, color .25s ease, border-color .25s ease;
     }
 
     .btn.primary {
@@ -238,6 +239,16 @@ title: "Nithin Prasad — Portfolio"
 
     .btn.primary:hover {
       background: #111;
+    }
+
+    .btn.icon-btn {
+      min-width: auto;
+      padding: 13px 18px;
+      font-weight: 500;
+    }
+
+    .btn.icon-btn i {
+      font-size: 18px;
     }
 
     .visual {
@@ -306,6 +317,13 @@ title: "Nithin Prasad — Portfolio"
       margin-bottom: 20px;
     }
 
+    .contact-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
     .tags {
       display: flex;
       flex-wrap: wrap;
@@ -319,7 +337,6 @@ title: "Nithin Prasad — Portfolio"
       border-radius: 999px;
       color: #52606d;
     }
-
 
     /* Technology stack */
     .stack-grid {
@@ -489,10 +506,6 @@ title: "Nithin Prasad — Portfolio"
         grid-template-columns: 1fr;
       }
 
-      .stack-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
       .item {
         grid-template-columns: 1fr;
         gap: 10px;
@@ -505,13 +518,6 @@ title: "Nithin Prasad — Portfolio"
       .nav-inner {
         gap: 16px;
         padding: 11px 15px;
-      }
-
-      nav a {
-        font-size: 11px;
-      }
-
-      .nav-inner {
         max-width: calc(100vw - 24px);
         overflow-x: auto;
         white-space: nowrap;
@@ -520,6 +526,10 @@ title: "Nithin Prasad — Portfolio"
 
       .nav-inner::-webkit-scrollbar {
         display: none;
+      }
+
+      nav a {
+        font-size: 11px;
       }
     }
 
@@ -534,12 +544,19 @@ title: "Nithin Prasad — Portfolio"
 
       .hero-actions {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
       }
 
       .hero-actions .btn {
         width: 100%;
-        max-width: 240px;
+      }
+
+      .contact-actions {
+        flex-direction: column;
+      }
+
+      .contact-actions .btn {
+        width: 100%;
       }
     }
 
@@ -607,7 +624,13 @@ title: "Nithin Prasad — Portfolio"
 
           <div class="hero-actions">
             <a class="btn primary" href="#projects">View Projects</a>
-            <a class="btn" href="#contact">Get in Touch</a>
+            <a class="btn" href="mailto:nithinprasadmn@gmail.com">Get in Touch</a>
+            <a class="btn icon-btn" href="https://github.com/nithinprasad0" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+              <i class="devicon-github-original"></i> GitHub
+            </a>
+            <a class="btn icon-btn" href="https://linkedin.com/in/nithin--prasad" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <i class="devicon-linkedin-plain"></i> LinkedIn
+            </a>
           </div>
         </div>
 
@@ -698,13 +721,11 @@ title: "Nithin Prasad — Portfolio"
         </div>
       </section>
 
-
       <!-- Technology Stack -->
       <section id="stack">
         <h2 class="section-title reveal">Stack</h2>
 
         <div class="stack-grid">
-
           <div class="stack-card reveal stagger-1">
             <img src="https://cdn.simpleicons.org/python" alt="Python">
             <span>Python</span>
@@ -784,7 +805,6 @@ title: "Nithin Prasad — Portfolio"
             <div class="stack-ai">JWT</div>
             <span>JWT Authentication</span>
           </div>
-
         </div>
       </section>
 
@@ -878,9 +898,17 @@ title: "Nithin Prasad — Portfolio"
             Interested in software engineering, Android development,
             AI-driven systems or practical full-stack applications?
           </p>
-          <a class="btn primary" href="mailto:nithin@example.com">
-            Get in Touch
-          </a>
+          <div class="contact-actions">
+            <a class="btn primary" href="mailto:nithinprasadmn@gmail.com">
+              Get in Touch
+            </a>
+            <a class="btn icon-btn" href="https://github.com/nithinprasad0" target="_blank" rel="noopener noreferrer">
+              <i class="devicon-github-original"></i> GitHub
+            </a>
+            <a class="btn icon-btn" href="https://linkedin.com/in/nithin--prasad" target="_blank" rel="noopener noreferrer">
+              <i class="devicon-linkedin-plain"></i> LinkedIn
+            </a>
+          </div>
         </div>
       </section>
 
