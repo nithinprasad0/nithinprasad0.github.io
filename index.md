@@ -597,8 +597,9 @@ title: "Nithin Prasad — Portfolio"
           </p>
 
           <div class="hero-actions">
-            <a class="btn primary" href="#projects">View Projects</a>
-            <a class="btn" href="#contact">Get in Touch</a>
+          <a class="btn primary" href="#projects">View Projects</a>
+          <a class="btn secondary" href="#contact">Get in Touch</a>
+          <a class="btn secondary" href="{{ '/assets/docs/resume.pdf' | relative_url }}" target="_blank" rel="noopener">Resume</a>
           </div>
         </div>
 
@@ -869,9 +870,13 @@ title: "Nithin Prasad — Portfolio"
             Interested in software engineering, Android development,
             AI-driven systems or practical full-stack applications?
           </p>
-          <a class="btn primary" href="mailto:nithin@example.com">
-            Get in Touch
+          <a href="https://github.com/nithinprasad0" target="_blank" rel="noopener" aria-label="GitHub">
+    <i class="devicon-github-original"></i>
           </a>
+
+      <a href="https://www.linkedin.com/in/nithin--prasad/" target="_blank" rel="noopener" aria-label="LinkedIn">
+    <i class="devicon-linkedin-plain"></i>
+      </a>
         </div>
       </section>
 
