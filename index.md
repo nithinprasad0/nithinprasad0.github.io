@@ -14,6 +14,7 @@ title: "Nithin Prasad — Portfolio"
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
 
   <style>
     * {
@@ -201,8 +202,16 @@ title: "Nithin Prasad — Portfolio"
 
     .hero-actions {
       display: flex;
-      gap: 16px;
+      align-items: center;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      gap: 14px;
       margin-top: 38px;
+    }
+
+    .hero-actions .btn {
+      flex: 0 0 auto;
+      white-space: nowrap;
     }
 
     .btn {
@@ -528,7 +537,7 @@ title: "Nithin Prasad — Portfolio"
         align-items: flex-start;
       }
 
-      .btn {
+      .hero-actions .btn {
         width: 100%;
         max-width: 240px;
       }
@@ -597,9 +606,8 @@ title: "Nithin Prasad — Portfolio"
           </p>
 
           <div class="hero-actions">
-          <a class="btn primary" href="#projects">View Projects</a>
-          <a class="btn secondary" href="#contact">Get in Touch</a>
-          <a class="btn secondary" href="{{ '/assets/docs/resume.pdf' | relative_url }}" target="_blank" rel="noopener">Resume</a>
+            <a class="btn primary" href="#projects">View Projects</a>
+            <a class="btn" href="#contact">Get in Touch</a>
           </div>
         </div>
 
@@ -630,7 +638,7 @@ title: "Nithin Prasad — Portfolio"
                 Firebase integration, REST APIs and Android Studio.
               </p>
               <span class="duration">
-                 · Mobile Application Development
+                Mobile Application Development
               </span>
             </div>
           </article>
@@ -798,7 +806,7 @@ title: "Nithin Prasad — Portfolio"
                 executive committee of the CSI student branch.
               </p>
               <span class="duration">
-                April 2025 – 2026
+                April 2025 – 2026 
               </span>
             </div>
           </article>
@@ -816,7 +824,7 @@ title: "Nithin Prasad — Portfolio"
                 technical festival, working with student teams and organizers.
               </p>
               <span class="duration">
-                2025 – 2026
+                2025 – 2026 
               </span>
             </div>
           </article>
@@ -870,13 +878,9 @@ title: "Nithin Prasad — Portfolio"
             Interested in software engineering, Android development,
             AI-driven systems or practical full-stack applications?
           </p>
-          <a href="https://github.com/nithinprasad0" target="_blank" rel="noopener" aria-label="GitHub">
-    <i class="devicon-github-original"></i>
+          <a class="btn primary" href="mailto:nithin@example.com">
+            Get in Touch
           </a>
-
-      <a href="https://www.linkedin.com/in/nithin--prasad/" target="_blank" rel="noopener" aria-label="LinkedIn">
-    <i class="devicon-linkedin-plain"></i>
-      </a>
         </div>
       </section>
 
