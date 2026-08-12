@@ -919,8 +919,8 @@ layout: null
             <span class="fact-label">Leadership Roles</span>
           </div>
           <div class="fact">
-            <span class="fact-value">6.7</span>
-            <span class="fact-label">BCA CGPA / 10</span>
+            <span class="fact-value">8.3</span>
+            <span class="fact-label">MCA CGPA</span>
           </div>
           <div class="fact">
             <span class="fact-value">AI</span>
@@ -1098,7 +1098,7 @@ layout: null
             <p class="edu-school">
               DePaul Institute of Science and Technology, Angamaly
             </p>
-            <span class="gpa">BCA · CGPA 6.7 / 10</span>
+            <span class="gpa">BCA</span>
           </div>
         </article>
 
