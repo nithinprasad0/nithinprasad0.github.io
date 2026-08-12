@@ -4,7 +4,6 @@ permalink: /
 title: "Nithin Prasad — Portfolio"
 ---
 
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -312,6 +311,59 @@ title: "Nithin Prasad — Portfolio"
       color: #52606d;
     }
 
+
+    /* Technology stack */
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .stack-card {
+      min-height: 125px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 13px;
+      padding: 20px;
+      border: 1px solid #e8e8e8;
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 8px 30px rgba(0,0,0,.035);
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+
+    .stack-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 38px rgba(0,0,0,.08);
+    }
+
+    .stack-card img {
+      width: 38px;
+      height: 38px;
+      object-fit: contain;
+    }
+
+    .stack-card span {
+      color: #4f5964;
+      font-size: 13px;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .stack-ai {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border: 1.5px solid #333;
+      border-radius: 9px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #333;
+    }
+
     /* Timeline */
     .timeline {
       max-width: 920px;
@@ -415,6 +467,10 @@ title: "Nithin Prasad — Portfolio"
         margin: auto;
       }
 
+      .stack-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
       .name {
         font-size: clamp(58px, 15vw, 90px);
         letter-spacing: -4px;
@@ -422,6 +478,10 @@ title: "Nithin Prasad — Portfolio"
 
       .grid {
         grid-template-columns: 1fr;
+      }
+
+      .stack-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
 
       .item {
@@ -439,7 +499,18 @@ title: "Nithin Prasad — Portfolio"
       }
 
       nav a {
-        font-size: 12px;
+        font-size: 11px;
+      }
+
+      .nav-inner {
+        max-width: calc(100vw - 24px);
+        overflow-x: auto;
+        white-space: nowrap;
+        scrollbar-width: none;
+      }
+
+      .nav-inner::-webkit-scrollbar {
+        display: none;
       }
     }
 
@@ -501,6 +572,7 @@ title: "Nithin Prasad — Portfolio"
       <a href="#about" class="active">About Me</a>
       <a href="#experience">Experience</a>
       <a href="#projects">Projects</a>
+      <a href="#stack">Stack</a>
       <a href="#leadership">Leadership</a>
       <a href="#education">Education</a>
       <a href="#contact">Contact</a>
@@ -557,7 +629,7 @@ title: "Nithin Prasad — Portfolio"
                 Firebase integration, REST APIs and Android Studio.
               </p>
               <span class="duration">
-                May 2026 – Present · Mobile Application Development
+                 · Mobile Application Development
               </span>
             </div>
           </article>
@@ -617,6 +689,96 @@ title: "Nithin Prasad — Portfolio"
         </div>
       </section>
 
+
+      <!-- Technology Stack -->
+      <section id="stack">
+        <h2 class="section-title reveal">Stack</h2>
+
+        <div class="stack-grid">
+
+          <div class="stack-card reveal stagger-1">
+            <img src="https://cdn.simpleicons.org/python" alt="Python">
+            <span>Python</span>
+          </div>
+
+          <div class="stack-card reveal stagger-2">
+            <img src="https://cdn.simpleicons.org/dart" alt="Dart">
+            <span>Dart</span>
+          </div>
+
+          <div class="stack-card reveal stagger-3">
+            <img src="https://cdn.simpleicons.org/flutter" alt="Flutter">
+            <span>Flutter</span>
+          </div>
+
+          <div class="stack-card reveal stagger-4">
+            <img src="https://cdn.simpleicons.org/firebase" alt="Firebase">
+            <span>Firebase</span>
+          </div>
+
+          <div class="stack-card reveal stagger-1">
+            <img src="https://cdn.simpleicons.org/django" alt="Django">
+            <span>Django</span>
+          </div>
+
+          <div class="stack-card reveal stagger-2">
+            <img src="https://cdn.simpleicons.org/react" alt="React">
+            <span>React</span>
+          </div>
+
+          <div class="stack-card reveal stagger-3">
+            <img src="https://cdn.simpleicons.org/flask" alt="Flask">
+            <span>Flask</span>
+          </div>
+
+          <div class="stack-card reveal stagger-4">
+            <img src="https://cdn.simpleicons.org/mongodb" alt="MongoDB">
+            <span>MongoDB</span>
+          </div>
+
+          <div class="stack-card reveal stagger-1">
+            <img src="https://cdn.simpleicons.org/vite" alt="Vite">
+            <span>Vite</span>
+          </div>
+
+          <div class="stack-card reveal stagger-2">
+            <img src="https://cdn.simpleicons.org/socketdotio" alt="Socket.IO">
+            <span>Socket.IO</span>
+          </div>
+
+          <div class="stack-card reveal stagger-3">
+            <img src="https://cdn.simpleicons.org/git" alt="Git">
+            <span>Git</span>
+          </div>
+
+          <div class="stack-card reveal stagger-4">
+            <img src="https://cdn.simpleicons.org/github" alt="GitHub">
+            <span>GitHub</span>
+          </div>
+
+          <div class="stack-card reveal stagger-1">
+            <div class="stack-ai">AI</div>
+            <span>Artificial Intelligence</span>
+          </div>
+
+          <div class="stack-card reveal stagger-2">
+            <div class="stack-ai">ML</div>
+            <span>Machine Learning</span>
+          </div>
+
+          <div class="stack-card reveal stagger-3">
+            <div class="stack-ai">API</div>
+            <span>REST APIs</span>
+          </div>
+
+          <div class="stack-card reveal stagger-4">
+            <div class="stack-ai">JWT</div>
+            <span>JWT Authentication</span>
+          </div>
+
+        </div>
+      </section>
+
       <!-- Leadership -->
       <section id="leadership">
         <h2 class="section-title reveal">Leadership</h2>
@@ -635,7 +797,7 @@ title: "Nithin Prasad — Portfolio"
                 executive committee of the CSI student branch.
               </p>
               <span class="duration">
-                April 2025 – 2026 · Approximately 1 year
+                April 2025 – 2026
               </span>
             </div>
           </article>
@@ -653,7 +815,7 @@ title: "Nithin Prasad — Portfolio"
                 technical festival, working with student teams and organizers.
               </p>
               <span class="duration">
-                2025 – 2026 · Main Coordinator
+                2025 – 2026
               </span>
             </div>
           </article>
@@ -676,7 +838,7 @@ title: "Nithin Prasad — Portfolio"
               <p>
                 Adi Shankara Institute of Engineering and Technology, Kalady.
               </p>
-              <span class="duration">CGPA 8.3 / 10</span>
+              <span class="duration">CGPA 8.3</span>
             </div>
           </article>
 
@@ -691,7 +853,7 @@ title: "Nithin Prasad — Portfolio"
               <p>
                 DePaul Institute of Science and Technology, Angamaly.
               </p>
-              <span class="duration">CGPA 6.7 / 10</span>
+              <span class="duration">CGPA 6.7</span>
             </div>
           </article>
         </div>
