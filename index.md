@@ -7,7 +7,7 @@ title: "Nithin Prasad — Portfolio"
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="google-site-verification" content="8V6LG6mrMSwx3COoxP8dnqGEBDb3gwtXaF1moJtpl40">
+  <meta name="google-site-verification" content="gy-uawKt9g2pWcKe6WnpACgv2x4rNp00UXdTMpVMAn8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Primary SEO -->
   <meta name="description" content="Nithin Prasad is a software developer and MCA postgraduate working on mobile apps, websites, and SEO optimization, with projects in Python, Flutter, Django, React, Firebase and AI.">
