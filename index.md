@@ -8,8 +8,73 @@ title: "Nithin Prasad — Portfolio"
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Nithin Prasad — Assistant Systems Engineer, Android App Developer and AI / Software Developer.">
-  <title>Nithin Prasad — Portfolio</title>
+  <!-- Primary SEO -->
+  <meta name="description" content="Nithin Prasad's software engineering portfolio featuring Python, Django, Flutter, Firebase, React and AI projects. MCA postgraduate, 2024–2026.">
+  <meta name="author" content="Nithin Prasad">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#ffffff">
+  <title>Nithin Prasad | Software Engineer | Python, Flutter &amp; AI</title>
+  <link rel="canonical" href="https://nithinprasad0.github.io/">
+
+  <!-- Open Graph: LinkedIn, WhatsApp and other social previews -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Nithin Prasad — Portfolio">
+  <meta property="og:title" content="Nithin Prasad | Software Engineer">
+  <meta property="og:description" content="Explore software projects in Python, Django, Flutter, Firebase, React and AI.">
+  <meta property="og:url" content="https://nithinprasad0.github.io/">
+  <meta property="og:image" content="https://nithinprasad0.github.io/assets/docs/nithin-keyboard.png">
+  <meta property="og:image:alt" content="Nithin Prasad's portfolio keyboard composition">
+  <meta property="og:locale" content="en_IN">
+
+  <!-- Twitter / X social previews -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Nithin Prasad | Software Engineer">
+  <meta name="twitter:description" content="Software engineering projects in Python, Flutter, Django, Firebase and AI.">
+  <meta name="twitter:image" content="https://nithinprasad0.github.io/assets/docs/nithin-keyboard.png">
+  <meta name="twitter:image:alt" content="Nithin Prasad's portfolio keyboard composition">
+
+  <!-- Structured data: professional identity -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": "https://nithinprasad0.github.io/#person",
+    "name": "Nithin Prasad",
+    "url": "https://nithinprasad0.github.io/",
+    "jobTitle": "Software Engineer",
+    "description": "Software developer and MCA postgraduate with projects involving Python, Django, Flutter, Firebase, React and AI.",
+    "alumniOf": [
+      {
+        "@type": "EducationalOrganization",
+        "name": "Adi Shankara Institute of Engineering and Technology, Kalady"
+      },
+      {
+        "@type": "EducationalOrganization",
+        "name": "DePaul Institute of Science and Technology, Angamaly"
+      }
+    ],
+    "sameAs": [
+      "https://github.com/nithinprasad0",
+      "https://linkedin.com/in/nithin--prasad"
+    ],
+    "knowsAbout": [
+      "Software Engineering",
+      "Python",
+      "Dart",
+      "Flutter",
+      "Django",
+      "Flask",
+      "React",
+      "Firebase",
+      "REST APIs",
+      "Artificial Intelligence",
+      "Data Analytics",
+      "Android Development",
+      "MongoDB",
+      "Socket.IO"
+    ]
+  }
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -638,7 +703,7 @@ title: "Nithin Prasad — Portfolio"
           <img
             class="keyboard"
             src="{{ '/assets/docs/nithin-keyboard.png' | relative_url }}"
-            alt="N-I-T-H-I-N keyboard composition"
+            alt="Nithin name arranged as a keyboard composition"
           >
         </div>
       </section>
@@ -941,10 +1006,10 @@ title: "Nithin Prasad — Portfolio"
 
       // Rotating hero roles.
       const roles = [
-        "Assistant Systems Engineer",
-        "Android App Developer",
-        "AI / Software Developer",
-        "Flutter Developer"
+        "Software Engineer",
+        "Flutter & Android Developer",
+        "Python & AI Developer",
+        "Mobile Application Developer"
       ];
 
       const roleEl = document.getElementById("roleText");
