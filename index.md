@@ -9,7 +9,7 @@ title: "Nithin Prasad — Portfolio"
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Primary SEO -->
-  <meta name="description" content="Nithin Prasad's software engineering portfolio featuring Python, Django, Flutter, Firebase, React and AI projects. MCA postgraduate, 2024–2026.">
+  <meta name="description" content="Nithin Prasad is a software developer and MCA postgraduate working on mobile apps, websites, and SEO optimization, with projects in Python, Flutter, Django, React, Firebase and AI.">
   <meta name="author" content="Nithin Prasad">
   <meta name="robots" content="index, follow, max-image-preview:large">
   <meta name="theme-color" content="#ffffff">
@@ -20,7 +20,7 @@ title: "Nithin Prasad — Portfolio"
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Nithin Prasad — Portfolio">
   <meta property="og:title" content="Nithin Prasad | Software Engineer">
-  <meta property="og:description" content="Explore software projects in Python, Django, Flutter, Firebase, React and AI.">
+  <meta property="og:description" content="Explore Nithin Prasad's work in software development, mobile apps, web development, SEO optimization and AI projects.">
   <meta property="og:url" content="https://nithinprasad0.github.io/">
   <meta property="og:image" content="https://nithinprasad0.github.io/assets/docs/nithin-keyboard.png">
   <meta property="og:image:alt" content="Nithin Prasad's portfolio keyboard composition">
@@ -29,7 +29,7 @@ title: "Nithin Prasad — Portfolio"
   <!-- Twitter / X social previews -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Nithin Prasad | Software Engineer">
-  <meta name="twitter:description" content="Software engineering projects in Python, Flutter, Django, Firebase and AI.">
+  <meta name="twitter:description" content="Software development, mobile apps, web development, SEO optimization and AI projects by Nithin Prasad.">
   <meta name="twitter:image" content="https://nithinprasad0.github.io/assets/docs/nithin-keyboard.png">
   <meta name="twitter:image:alt" content="Nithin Prasad's portfolio keyboard composition">
 
@@ -41,8 +41,8 @@ title: "Nithin Prasad — Portfolio"
     "@id": "https://nithinprasad0.github.io/#person",
     "name": "Nithin Prasad",
     "url": "https://nithinprasad0.github.io/",
-    "jobTitle": "Software Engineer",
-    "description": "Software developer and MCA postgraduate with projects involving Python, Django, Flutter, Firebase, React and AI.",
+    "jobTitle": "Freelance Software Developer",
+    "description": "Software developer and MCA postgraduate working on mobile application development, website development and SEO optimization, with projects involving Python, Django, Flutter, Firebase, React and AI.",
     "alumniOf": [
       {
         "@type": "EducationalOrganization",
@@ -720,13 +720,20 @@ title: "Nithin Prasad — Portfolio"
             </div>
 
             <div class="content">
-              <h3>Freelance Android App Developer</h3>
+              <h3>Freelance Software Developer</h3>
               <p>
-                Mobile application development using Flutter and Dart, with
-                Firebase integration, REST APIs and Android Studio.
+                Develop mobile applications using Flutter and Dart, integrating
+                Firebase and REST APIs with Android Studio.
+              </p>
+              <p>
+                Develop and maintain websites based on business requirements.
+              </p>
+              <p>
+                Apply SEO optimization techniques to improve website
+                discoverability and search-engine visibility.
               </p>
               <span class="duration">
-                Mobile Application Development
+                Mobile App Development · Web Development · SEO Optimization
               </span>
             </div>
           </article>
@@ -1007,9 +1014,10 @@ title: "Nithin Prasad — Portfolio"
       // Rotating hero roles.
       const roles = [
         "Software Engineer",
+        "Freelance Software Developer",
+        "Web Developer & SEO Optimizer",
         "Flutter & Android Developer",
-        "Python & AI Developer",
-        "Mobile Application Developer"
+        "Python & AI Developer"
       ];
 
       const roleEl = document.getElementById("roleText");
