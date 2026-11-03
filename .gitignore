@@ -1,0 +1,9 @@
+node_modules/
+dist/
+dist-ssr/
+*.log
+.DS_Store
+
+# Local tooling: editor/agent preview settings and browser-test logs
+.claude/
+.playwright-mcp/
