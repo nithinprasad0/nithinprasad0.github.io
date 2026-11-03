@@ -61,14 +61,18 @@ export function OpeningScreen() {
         if (e.target === e.currentTarget) setDone(true);
       }}
     >
-      <img
-        className="intro-logo block h-auto w-[86vw] object-contain invert min-[521px]:w-[min(680px,78vw)]"
-        src={assets.signature}
-        width={1024}
-        height={499}
-        alt=""
-        aria-hidden="true"
-      />
+      <picture className="contents">
+        <source srcSet={assets.signatureAvif} type="image/avif" />
+        <source srcSet={assets.signatureWebp} type="image/webp" />
+        <img
+          className="intro-logo block h-auto w-[86vw] object-contain invert min-[521px]:w-[min(680px,78vw)]"
+          src={assets.signature}
+          width={1024}
+          height={499}
+          alt=""
+          aria-hidden="true"
+        />
+      </picture>
       <button
         type="button"
         onClick={skip}

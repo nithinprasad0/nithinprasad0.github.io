@@ -1,9 +1,10 @@
 // Input state for the interactive hero keyboard. Plain mutable state (no React
 // state), read every frame by Keyboard: presses never cause a re-render.
 //
-// Physical mapping: the board only has the six keys N I T H I N.
-//   KeyN → N (keys 1 and 6, alternating)   KeyI → I (keys 2 and 5, alternating)
-//   KeyT → T (key 3)                        KeyH → H (key 4)
+// Key mapping: the board only has the six keys N I T H I N, matched by the
+// letter typed (so any keyboard layout works):
+//   N → keys 1 and 6 (alternating)   I → keys 2 and 5 (alternating)
+//   T → key 3                         H → key 4
 
 export const LETTERS = "NITHIN";
 /** The one key that glows a little differently and opens the hidden workspace. */
@@ -48,22 +49,36 @@ function keyFor(letter: string): number {
   return all[n];
 }
 
+/**
+ * The letter a key types on the user's own layout (Dvorak, AZERTY and so on),
+ * upper-cased; the key's QWERTY position only when the browser reports no
+ * printable key.
+ */
+export function letterOf(e: KeyboardEvent): string {
+  if (e.key && e.key.length === 1) return e.key.toUpperCase();
+  return CODES[e.code] ?? "";
+}
+
 const physicalHeld = new Map<string, number>();
 
 /** Physical key down. Never prevents the event; returns the key index pressed, or -1. */
-export function physicalDown(code: string): number {
-  const letter = CODES[code];
-  if (!letter || physicalHeld.has(code)) return -1;
+export function physicalDown(e: KeyboardEvent): number {
+  const letter = letterOf(e);
+  // Held keys are tracked by position, so the release matches even if a
+  // modifier changed the typed character in between.
+  const id = e.code || letter;
+  if (!letter || !LETTERS.includes(letter) || physicalHeld.has(id)) return -1;
   const index = keyFor(letter);
-  physicalHeld.set(code, index);
+  physicalHeld.set(id, index);
   press(index);
   return index;
 }
 
-export function physicalUp(code: string) {
-  const index = physicalHeld.get(code);
+export function physicalUp(e: KeyboardEvent) {
+  const id = e.code || letterOf(e);
+  const index = physicalHeld.get(id);
   if (index === undefined) return;
-  physicalHeld.delete(code);
+  physicalHeld.delete(id);
   release(index);
 }
 
@@ -99,8 +114,10 @@ export function stepSprings(dt: number) {
 
 /* ------------------------------------------------------------ Curious Key */
 
-/** The one physical key that opens the workbench (T, any case). */
-export const CURIOUS_CODE = "KeyT";
+/** True for the key that opens the workbench: whichever key types T (any case). */
+export function isCuriousKey(e: KeyboardEvent) {
+  return letterOf(e) === LETTERS[CURIOUS];
+}
 
 /** Event the workbench listens for. */
 export const CURIOUS_OPEN = "curious:open";

@@ -178,9 +178,9 @@ export function Keyboard({ shadows }: { shadows: boolean }) {
       // workbench (so it also works without the 3D keyboard). Both use the
       // same guard, and nothing here ever calls preventDefault.
       if (shouldIgnoreKey(e)) return;
-      physicalDown(e.code);
+      physicalDown(e);
     };
-    const onKeyUp = (e: KeyboardEvent) => physicalUp(e.code);
+    const onKeyUp = (e: KeyboardEvent) => physicalUp(e);
     const onBlur = () => releaseAll();
     const onHidden = () => document.hidden && releaseAll();
 

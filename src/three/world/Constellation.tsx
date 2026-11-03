@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef } from "react";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { BufferGeometry, Color, LineBasicMaterial, LineSegments, Vector3, type Group } from "three";
 import { stackGraph, stackPathways } from "../../content/portfolio";
 import { ACCENT, ACCENT_LIGHT, Label, MAT, Station, smooth } from "./kit";
@@ -23,7 +23,23 @@ export function Constellation() {
   const hub = useRef<Group>(null);
   const ids = useMemo(() => new Map(stackGraph.nodes.map((n, i) => [n.id, i])), []);
   const byLabel = useMemo(() => new Map(stackGraph.nodes.map((n) => [n.label, n.id])), []);
-  const pos = useMemo(() => stackGraph.nodes.map((n) => new Vector3(...n.pos).multiplyScalar(SPREAD)), []);
+  // Phones and tablets (portrait frame, text below): the constellation keeps
+  // its height, depth and keycap size but draws in a little horizontally, so
+  // the outer clusters (Flutter, Android Studio, TallyPrime, GitHub) stay in
+  // frame. Re-renders on resize; follows the page's 850px layout breakpoint.
+  useThree((s) => s.size);
+  const portrait = window.innerWidth <= 850;
+  // (The mobile cluster reaches further left than the integration cluster
+  // reaches right, so the portrait layout also moves the whole a little right.)
+  const pos = useMemo(
+    () =>
+      stackGraph.nodes.map((n) => {
+        const p = new Vector3(...n.pos).multiplyScalar(SPREAD);
+        if (portrait) p.x = p.x * 0.68 + 0.9;
+        return p;
+      }),
+    [portrait],
+  );
 
   // Labels sit outward from the centre (and slightly up), away from edges.
   const labelPos = useMemo(

@@ -71,3 +71,12 @@ export function LinkedInIcon({ className = "size-[18px]" }: IconProps) {
     </svg>
   );
 }
+
+/** A stack brand mark, drawn from the site's own sprite (no third-party requests). */
+export function StackIcon({ slug, className = "size-4" }: IconProps & { slug: string }) {
+  return (
+    <svg className={className} fill="currentColor" aria-hidden="true" focusable="false">
+      <use href={`${assets.stackIcons}#si-${slug}`} />
+    </svg>
+  );
+}
