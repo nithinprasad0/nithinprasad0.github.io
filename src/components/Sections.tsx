@@ -15,7 +15,8 @@ import {
   type Project,
   type TimelineEntry,
 } from "../content/portfolio";
-import { ArrowUpRightIcon, GitHubIcon, LinkedInIcon, MailIcon, ResumeLink } from "./Icons";
+import { ArrowUpRightIcon, GitHubIcon, LinkedInIcon, MailIcon, ResumeLink, StackIcon } from "./Icons";
+import { OrbitNodes } from "./OrbitNodes";
 
 /*
  * Every section is a chapter of the scroll story. In world mode (html.world)
@@ -29,7 +30,7 @@ function SectionHeader({ id, index, label, title }: { id: string; index: string;
   return (
     <header className="reveal mb-10 grid gap-4 min-[851px]:mb-14 min-[851px]:grid-cols-[200px_1fr] min-[851px]:gap-8 world:min-[851px]:mb-10 world:min-[851px]:grid-cols-1 world:min-[851px]:gap-4">
       <p className="eyebrow min-[851px]:pt-4 world:min-[851px]:pt-0">
-        {index} <span className="text-cool-grey">/ {label}</span>
+        {index} <span className="label-muted text-cool-grey">/ {label}</span>
       </p>
       <h2 id={`${id}-title`} className="section-title max-w-[16ch]">
         {title}
@@ -48,6 +49,7 @@ function Section({
   next,
   material = "",
   band = false,
+  scene,
 }: {
   id: string;
   index: string;
@@ -61,6 +63,8 @@ function Section({
   material?: string;
   /** Editorial band: a full-width surface instead of a floating panel. */
   band?: boolean;
+  /** Controls that belong to the chapter's 3D scene (outside the glass card, which would contain fixed positioning). */
+  scene?: ReactNode;
 }) {
   return (
     <section id={id} aria-labelledby={`${id}-title`} className={`section chapter ${quiet ? "chapter-quiet" : ""} ${band ? "chapter-band" : ""}`}>
@@ -71,6 +75,7 @@ function Section({
           {next && <NextChapter id={next} />}
         </div>
       </div>
+      {scene}
     </section>
   );
 }
@@ -92,7 +97,7 @@ function TagList({ tags, label }: { tags: string[]; label: string }) {
 
 export function About() {
   return (
-    <Section id="about" index="01" label="About" title={about.headline} next="experience" material="material-warm">
+    <Section id="about" index="01" label="About" title={about.headline} next="experience" material="material-warm" scene={<OrbitNodes />}>
       <div className="grid gap-10 min-[1024px]:grid-cols-[1.25fr_1fr] min-[1024px]:gap-14 world:min-[1024px]:grid-cols-1 world:min-[1024px]:gap-8">
         <div className="reveal space-y-5 text-lg leading-relaxed text-[#c3c9d4] min-[851px]:text-xl">
           {about.paragraphs.map((p) => (
@@ -300,7 +305,7 @@ function Tech({ name, quiet = false }: { name: string; quiet?: boolean }) {
   return (
     <span className={`inline-flex items-center gap-2 rounded-lg border px-3 py-1.5 text-sm ${quiet ? "border-white/10 text-[#b9c0cc]" : "tech-pill border-ice/25 bg-white/[.03] text-soft-white"}`}>
       {icon ? (
-        <img src={`https://cdn.simpleicons.org/${icon}/8FC8FF`} alt="" width={16} height={16} loading="lazy" decoding="async" className="size-4" />
+        <StackIcon slug={icon} className="size-4 shrink-0 text-[#8FC8FF]" />
       ) : (
         <span aria-hidden="true" className="size-1.5 rounded-full bg-ice" />
       )}
@@ -316,7 +321,7 @@ export function Stack() {
     <Section id="stack" index="04" label="Stack" title="Technical Stack" next="leadership">
       {/* AI specialisation first — the skills that differentiate the profile. */}
       <div className="reveal mb-8">
-        <p className="eyebrow mb-3 text-cool-grey">Specialisation</p>
+        <p className="label-muted eyebrow mb-3 text-cool-grey">Specialisation</p>
         <ul className="flex flex-wrap gap-2.5">
           {profile.specialisation.map((s) => (
             <li

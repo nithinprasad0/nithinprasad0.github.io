@@ -234,6 +234,11 @@
   .world .chapter {
     padding-block: 58vh 30vh;
   }
+  /* The About orbit is interactive: a longer scene moment before the card
+     rises over it, so its nodes can be explored on a phone. */
+  .world #about.chapter {
+    padding-top: 72vh;
+  }
   .world .project-stop {
     padding-block: 46vh 8vh;
   }
@@ -377,6 +382,214 @@
   box-shadow: 0 0 10px color-mix(in oklab, var(--accent) 55%, transparent);
 }
 
+/* --------------------------------------------------------- About orbit */
+/* The orbit's three node controls (OrbitNodes). Each anchor is a zero-size
+   point that the 3D scene moves onto its node; the button's hit area is
+   centred on the node and its name sits beside it, on the side away from
+   the core. The description opens under the name. */
+.orbit-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    opacity 0.45s ease,
+    visibility 0s linear 0.45s;
+}
+.world-ready .orbit-layer[data-shown] {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.45s ease;
+}
+.orbit-anchor {
+  --tone: #eef4ff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  transition: opacity 0.3s ease;
+}
+.orbit-anchor[data-tone="web"] {
+  --tone: #e3c590;
+}
+.orbit-anchor[data-tone="ai"] {
+  --tone: #8fb8ff;
+}
+.orbit-anchor[data-hidden] {
+  visibility: hidden;
+  opacity: 0;
+}
+/* While fading out, nothing can be hovered or tapped. */
+.orbit-layer:not([data-shown]) .orbit-node {
+  pointer-events: none;
+}
+.orbit-node {
+  position: absolute;
+  top: -22px;
+  left: -22px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  cursor: pointer;
+  pointer-events: auto;
+  border-radius: 999px;
+  outline: none;
+}
+.orbit-anchor[data-side="left"] .orbit-node {
+  left: auto;
+  right: -22px;
+  flex-direction: row-reverse;
+}
+/* The hit area: the 3D node itself is the visual; focus and hover add a fine ring. */
+.orbit-hit {
+  position: relative;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+.orbit-hit::after {
+  content: "";
+  position: absolute;
+  inset: 11px;
+  border-radius: 50%;
+  border: 1px solid var(--tone);
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity 0.3s ease,
+    transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.orbit-anchor[data-active] .orbit-hit::after {
+  opacity: 0.7;
+  transform: none;
+}
+.orbit-node:focus-visible .orbit-hit::after {
+  opacity: 1;
+  transform: none;
+  border-width: 2px;
+}
+/* The name: a short hairline leads from the node to a quiet uppercase label. */
+.orbit-name {
+  position: relative;
+  padding: 3px 9px;
+  border-radius: 999px;
+  /* Opaque enough that a bright node or orbit passing behind never costs
+     contrast (AA holds over any pixel of the scene). */
+  background: rgb(10 9 8 / 0.8);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #dfe4ec;
+  transition:
+    color 0.3s ease,
+    background-color 0.3s ease,
+    opacity 0.25s ease;
+}
+.orbit-name::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  width: 10px;
+  height: 1px;
+  margin-right: -2px;
+  background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--tone) 70%, transparent));
+}
+.orbit-anchor[data-side="left"] .orbit-name::before {
+  right: auto;
+  left: 100%;
+  margin: 0 0 0 -2px;
+  transform: scaleX(-1);
+}
+.orbit-anchor[data-covered] .orbit-name {
+  opacity: 0;
+}
+.orbit-anchor[data-active] .orbit-name {
+  color: var(--color-soft-white);
+  background: rgb(10 9 8 / 0.88);
+}
+.orbit-desc {
+  position: absolute;
+  top: 18px;
+  left: 30px;
+  width: min(208px, calc(100vw - 48px));
+  padding: 9px 11px;
+  border-radius: 10px;
+  border: 1px solid color-mix(in oklab, var(--tone) 22%, transparent);
+  background: rgb(10 9 8 / 0.9);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  font-size: 13px;
+  line-height: 1.45;
+  color: #d3d9e2;
+  pointer-events: none;
+  /* Slid inward by the scene (--dx/--dy) to stay on screen and off the card. */
+  translate: var(--dx, 0px) var(--dy, 0px);
+  opacity: 0;
+  transform: translateY(-4px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.orbit-anchor[data-side="left"] .orbit-desc {
+  left: auto;
+  right: 30px;
+}
+/* Above or below the node: the name stacks on the hit area, centred. */
+.orbit-anchor:is([data-side="above"], [data-side="below"]) .orbit-node {
+  left: 0;
+  height: auto;
+  flex-direction: column;
+  gap: 2px;
+  translate: -50% 0;
+}
+.orbit-anchor[data-side="above"] .orbit-node {
+  top: auto;
+  bottom: -22px;
+  flex-direction: column-reverse;
+}
+.orbit-anchor:is([data-side="above"], [data-side="below"]) .orbit-name::before {
+  display: none;
+}
+.orbit-anchor:is([data-side="above"], [data-side="below"]) .orbit-desc {
+  left: 0;
+  translate: calc(-50% + var(--dx, 0px)) var(--dy, 0px);
+}
+.orbit-anchor[data-side="below"] .orbit-desc {
+  top: 52px;
+}
+.orbit-anchor[data-side="above"] .orbit-desc {
+  top: auto;
+  bottom: 52px;
+}
+.orbit-anchor[data-active] .orbit-desc {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.orbit-anchor[data-active] {
+  z-index: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .orbit-layer,
+  .orbit-anchor,
+  .orbit-hit::after,
+  .orbit-name,
+  .orbit-desc {
+    transition: none;
+  }
+}
+
 /* ----------------------------------------------------- Chapter wayfinding */
 .chapter-rail {
   opacity: 0;
@@ -515,6 +728,12 @@ html[data-frame="right"] .world-scrim {
       radial-gradient(120% 55% at 50% 0%, rgb(var(--env-rim, 47 111 255) / 0.16), transparent 72%),
       linear-gradient(160deg, rgb(255 255 255 / 0.05), transparent 38%) !important;
     border-color: rgb(var(--env-rim, 47 111 255) / 0.22);
+  }
+  /* The section index labels and the Stack "Specialisation" label sit over
+     the scene's changing light on small screens; a slightly lighter grey
+     keeps them above 4.5:1 there (same hue as cool-grey). */
+  .world .label-muted {
+    color: #a9b0bd;
   }
 }
 

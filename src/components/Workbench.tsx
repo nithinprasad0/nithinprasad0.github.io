@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type ReactNode } from "react";
 import { about, assets, experience, profile, projects, stackPathways } from "../content/portfolio";
-import { activateCuriousKey, CURIOUS, CURIOUS_CODE, CURIOUS_OPEN, LETTERS, shouldIgnoreKey } from "../three/world/keyInput";
+import { activateCuriousKey, CURIOUS, CURIOUS_OPEN, isCuriousKey, LETTERS, shouldIgnoreKey } from "../three/world/keyInput";
 
 // The Curious Key: an optional Easter egg. One key on the hero keyboard glows a
 // little differently; clicking or tapping it, pressing the physical T key, or
@@ -196,7 +196,7 @@ export function Workbench() {
     // works with reduced motion or without WebGL. The shared guard leaves
     // typing, IME, auto-repeat and shortcuts alone; no preventDefault.
     const onKey = (e: globalThis.KeyboardEvent) => {
-      if (e.code === CURIOUS_CODE && !shouldIgnoreKey(e)) activateCuriousKey();
+      if (isCuriousKey(e) && !shouldIgnoreKey(e)) activateCuriousKey();
     };
     window.addEventListener(CURIOUS_OPEN, onOpen);
     window.addEventListener("keydown", onKey);

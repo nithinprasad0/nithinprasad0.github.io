@@ -57,7 +57,8 @@ export function Screen({ w, h, draw, res = 256 }: { w: number; h: number; draw: 
     draw(g, cw, ch);
     const tex = new CanvasTexture(canvas);
     tex.colorSpace = SRGBColorSpace;
-    tex.anisotropy = 4;
+    // Screens are often seen at an angle: keep their interface detail sharp.
+    tex.anisotropy = 8;
     return new MeshBasicMaterial({ map: tex, toneMapped: false });
   }, [w, h, draw, res]);
   useEffect(() => {

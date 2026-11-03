@@ -17,6 +17,13 @@ export const profile = {
 export const assets = {
   signature: "/assets/docs/nithin-prasad-signature.png",
   keyboard: "/assets/docs/nithin-keyboard.png",
+  // Smaller encodings of the same images (the PNGs stay as the fallback and
+  // the social preview image).
+  signatureAvif: "/assets/docs/nithin-prasad-signature.avif",
+  signatureWebp: "/assets/docs/nithin-prasad-signature.webp",
+  keyboardAvif: "/assets/docs/nithin-keyboard.avif",
+  keyboardWebp: "/assets/docs/nithin-keyboard.webp",
+  stackIcons: "/assets/icons/stack-icons.svg",
   resume: "/assets/docs/resume.pdf",
 } as const;
 
@@ -43,6 +50,12 @@ export const about = {
     { label: "Next", value: "Incoming System Engineer", detail: "TCS" },
     { label: "Education", value: "Master of Computer Applications", detail: "Adi Shankara Institute of Engineering and Technology · 2024 – 2026" },
     { label: "Focus", value: "Prompt Engineering · RAG · AI Agents", detail: "Python, Flutter, Firebase, React, .NET" },
+  ],
+  /** The three orbital nodes of the About illustration (in ring order, outer → inner). */
+  areas: [
+    { id: "mobile", label: "Mobile", description: "Android applications, Flutter and Firebase-powered business workflows." },
+    { id: "web", label: "Web", description: "Responsive websites, full-stack applications and business platforms." },
+    { id: "ai", label: "AI & Data", description: "AI-powered applications, dataset exploration and intelligent automation." },
   ],
 } as const;
 
@@ -133,11 +146,15 @@ export const projects: Project[] = [
   {
     name: "InsightGen",
     mark: "IG",
+    // Stack from the public repository (insight-gen-app): CrewAI planner,
+    // coder and reporter agents behind a Streamlit app, with Pandas and Plotly.
     description:
-      "AI-driven data analysis and automation platform that turns natural-language requests into analytical insights and reports.",
-    tags: ["Python", "Streamlit", "OpenAI API"],
+      "Multi-agent AI data analysis platform that turns natural-language requests into analytical insights, visualisations and reports.",
+    tags: ["Python", "CrewAI", "Streamlit", "Pandas", "Plotly", "OpenAI API"],
   },
   {
+    // Owner-supplied (original site). Not on the résumé and no source code
+    // available, so nothing beyond this description is claimed.
     name: "Revo",
     mark: "Rv",
     description:
@@ -147,11 +164,15 @@ export const projects: Project[] = [
   {
     name: "Profexia",
     mark: "Px",
+    // Concept from the owner; stack and features from the current source
+    // (v2, 2026) only — no technologies from the earlier v1 build. Not
+    // publicly released, so no repository or demo link.
     description:
-      "Web-only skill-bartering platform connecting learners and teachers for knowledge exchange, with administration and real-time interaction features.",
-    tags: ["React", "Vite", "Flask", "Python", "PyMongo", "MongoDB Atlas", "JWT", "Socket.IO", "Bcrypt"],
+      "Web-only skill-bartering platform connecting learners and teachers, with courses and enrolment, auto-marked assessments, real-time chat and notifications, and live learning sessions.",
+    tags: ["React", "TypeScript", "Vite", "Python", "FastAPI", "PostgreSQL", "SQLAlchemy", "Alembic", "Redis", "JWT", "bcrypt", "WebSockets", "Docker Compose", "pytest", "Razorpay", "Judge0", "LiveKit"],
   },
   {
+    // As on the owner's résumé; no source code available.
     name: "Child Vaccination Management System",
     mark: "CV",
     description:
@@ -159,12 +180,14 @@ export const projects: Project[] = [
     tags: ["HTML", "CSS", "JavaScript", "SQL"],
   },
   {
-    // Owner-supplied description only. No technologies confirmed yet, so no tags.
+    // From the source (FaceAttend 6.2): a local Windows desktop app built with
+    // PySide6, OpenCV YuNet + SFace and SQLite. The optional head-turn liveness
+    // challenge is off by default and not yet tested with real people.
     name: "FaceAttend",
     mark: "FA",
     description:
-      "Face-recognition attendance system. Liveness detection is still experimental and disabled by default.",
-    tags: [],
+      "Local Windows desktop application for face-recognition attendance and weekly daily-wage payroll, with encrypted face templates. Liveness detection is still experimental and disabled by default.",
+    tags: ["Python", "PySide6", "OpenCV", "NumPy", "SQLite"],
   },
   {
     // Built only from the approved GEM Group experience details.
@@ -179,8 +202,11 @@ export const projects: Project[] = [
 /**
  * The technology ecosystem as a graph: nodes are confirmed technologies,
  * edges are relationships that appear in the projects and experience above
- * (e.g. Dart → Flutter → Firebase at GEM Group; Flask → MongoDB, Socket.IO and
- * JWT in Profexia). Positions place each cluster in the 3D constellation.
+ * (e.g. Dart → Flutter → Firebase at GEM Group; Python → CrewAI → OpenAI API in
+ * InsightGen; React → FastAPI → PostgreSQL in Profexia v2; Django in Revo and
+ * the ICT Academy certificate; HTML, CSS and JavaScript with SQL in Child
+ * Vaccination). Only current stacks: no technologies from earlier builds.
+ * Positions place each cluster in the 3D constellation.
  */
 export const stackGraph = {
   nodes: [
@@ -192,12 +218,14 @@ export const stackGraph = {
     { id: "androidstudio", label: "Android Studio", pos: [-6, 1.6, -0.8] },
     { id: "rest", label: "REST APIs", pos: [-3.2, -1.3, 2] },
     { id: "django", label: "Django", pos: [-1.4, -2.3, -1.2] },
-    { id: "flask", label: "Flask", pos: [0.8, -1.8, -1.4] },
+    { id: "javascript", label: "JavaScript", pos: [0.8, -1.8, -1.4] },
     { id: "react", label: "React", pos: [2.4, -2.4, 1.2] },
     { id: "vite", label: "Vite", pos: [3.8, -3, 0.4] },
-    { id: "mongodb", label: "MongoDB", pos: [0.6, -3.7, -2.4] },
-    { id: "socketio", label: "Socket.IO", pos: [2.2, -0.9, -2.8] },
-    { id: "jwt", label: "JWT", pos: [-0.6, -3.6, -0.2] },
+    { id: "sql", label: "SQL", pos: [-0.6, -3.6, -0.2] },
+    { id: "html", label: "HTML & CSS", pos: [2.2, -0.9, -2.8] },
+    { id: "crewai", label: "CrewAI", pos: [-1.6, 3.4, 0.4] },
+    { id: "fastapi", label: "FastAPI", pos: [-2.6, -3, -0.4] },
+    { id: "postgresql", label: "PostgreSQL", pos: [-1.8, -3.8, 0.9] },
     { id: "streamlit", label: "Streamlit", pos: [-1.8, 1.9, -2.2] },
     { id: "openai", label: "OpenAI API", pos: [-0.2, 3.1, -1.8] },
     { id: "aiml", label: "AI & ML", pos: [1.3, 2.9, -0.4] },
@@ -208,8 +236,10 @@ export const stackGraph = {
   ] as { id: string; label: string; pos: [number, number, number]; core?: boolean }[],
   edges: [
     ["dart", "flutter"], ["flutter", "firebase"], ["flutter", "androidstudio"], ["flutter", "rest"],
-    ["python", "django"], ["python", "flask"], ["python", "streamlit"], ["streamlit", "openai"], ["python", "aiml"],
-    ["flask", "mongodb"], ["flask", "socketio"], ["flask", "jwt"], ["react", "vite"], ["react", "flask"],
+    ["python", "django"], ["python", "fastapi"], ["fastapi", "postgresql"], ["react", "fastapi"],
+    ["python", "streamlit"], ["python", "aiml"],
+    ["python", "crewai"], ["crewai", "openai"], ["streamlit", "openai"],
+    ["html", "javascript"], ["javascript", "react"], ["react", "vite"], ["javascript", "sql"],
     ["csharp", "dotnet"], ["dotnet", "tally"], ["firebase", "tally"], ["git", "github"],
   ] as [string, string][],
 };
@@ -217,9 +247,9 @@ export const stackGraph = {
 /** The same relationships, written for people (the accessible HTML version). */
 export const stackPathways: { title: string; chain: string[]; with: string[] }[] = [
   { title: "Mobile apps", chain: ["Dart", "Flutter", "Firebase"], with: ["REST APIs", "Android Studio", "Firebase Console"] },
-  { title: "Web platforms", chain: ["Vite", "React", "Flask"], with: ["MongoDB", "Socket.IO", "JWT"] },
-  { title: "Python backends", chain: ["Python", "Django"], with: ["Flask"] },
-  { title: "AI & data", chain: ["Python", "Streamlit", "OpenAI API"], with: ["AI & ML"] },
+  { title: "Web platforms", chain: ["HTML & CSS", "JavaScript", "React"], with: ["TypeScript", "Vite", "SQL"] },
+  { title: "Python backends", chain: ["Python", "FastAPI", "PostgreSQL"], with: ["SQLAlchemy", "Redis"] },
+  { title: "AI & data", chain: ["Python", "CrewAI", "OpenAI API"], with: ["Streamlit", "AI & ML"] },
   { title: "Business integration", chain: ["C#", ".NET", "TallyPrime"], with: ["Firebase"] },
   { title: "Workflow", chain: ["Git", "GitHub"], with: [] },
 ];
@@ -227,8 +257,8 @@ export const stackPathways: { title: string; chain: string[]; with: string[] }[]
 /** Simple Icons slugs for the HTML pathways (absent = text badge). */
 export const stackIcons: Record<string, string> = {
   Python: "python", Dart: "dart", Flutter: "flutter", Firebase: "firebase", "Firebase Console": "firebase",
-  "Android Studio": "androidstudio", React: "react", Vite: "vite", Flask: "flask", Django: "django",
-  MongoDB: "mongodb", "Socket.IO": "socketdotio", Streamlit: "streamlit", ".NET": "dotnet", Git: "git", GitHub: "github",
+  "Android Studio": "androidstudio", React: "react", Vite: "vite", Django: "django", JavaScript: "javascript",
+  "HTML & CSS": "html5", CrewAI: "crewai", FastAPI: "fastapi", PostgreSQL: "postgresql", TypeScript: "typescript", Streamlit: "streamlit", ".NET": "dotnet", Git: "git", GitHub: "github",
 };
 
 export const leadership: TimelineEntry[] = [

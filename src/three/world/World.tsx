@@ -180,10 +180,38 @@ function useStagedMount(stages: number) {
   return stage;
 }
 
+/**
+ * Rendering resolution. The canvas draws at the screen's own pixel density
+ * (Retina phones are 3×), so edges, lines and in-scene text are as sharp as
+ * the HTML around them, within a pixel budget per tier: a phone gets its full
+ * 3×, a large tablet or desktop is held to a few million pixels. Under load
+ * the resolution steps down gently, never below a floor that keeps edges
+ * crisp (2× on touch devices), and returns when there is headroom.
+ */
+function resolutionRange(tier: Tier) {
+  const full = tier === "full";
+  const device = window.devicePixelRatio || 1;
+  const area = window.innerWidth * window.innerHeight;
+  const budget = full ? 5.5e6 : 4.2e6;
+  const max = Math.max(1, Math.min(device, full ? 2 : 3, Math.sqrt(budget / area)));
+  return { min: Math.min(max, full ? (device >= 2 ? 1.25 : 1) : 2), max };
+}
+
+const DPR_STEP = 0.25;
+
 export default function World({ tier, onReady, onError }: Props) {
   const full = tier === "full";
-  const [dpr, setDpr] = useState<[number, number]>(full ? [1, 1.5] : [1, 1.25]);
+  const range = useMemo(() => resolutionRange(tier), [tier]);
+  const [dpr, setDpr] = useState(range.max);
   const stage = useStagedMount(4);
+  // Performance is judged only once loading has settled: the first seconds
+  // (shader compiles, staged mounts) are slow on every device and would
+  // otherwise drop the resolution for good.
+  const [watch, setWatch] = useState(false);
+  useEffect(() => {
+    const t = window.setTimeout(() => setWatch(true), 4000);
+    return () => window.clearTimeout(t);
+  }, []);
 
   return (
     <Canvas
@@ -197,7 +225,16 @@ export default function World({ tier, onReady, onError }: Props) {
         gl.domElement.addEventListener("webglcontextlost", onError, { once: true });
       }}
     >
-      <PerformanceMonitor onDecline={() => setDpr([1, 1])} />
+      {watch && (
+        <PerformanceMonitor
+          // 60 Hz screens: below 45 fps step down, at a steady ~60 step back up
+          // (a 30 fps Low Power Mode cap only ever reaches the floor).
+          bounds={(refresh) => (refresh > 90 ? [55, 90] : [45, 58])}
+          flipflops={6}
+          onDecline={() => setDpr((d) => Math.max(range.min, d - DPR_STEP))}
+          onIncline={() => setDpr((d) => Math.min(range.max, d + DPR_STEP))}
+        />
+      )}
 
       <ambientLight intensity={0.14} />
       <directionalLight

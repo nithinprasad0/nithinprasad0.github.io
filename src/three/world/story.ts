@@ -283,9 +283,14 @@ function buildKeyframes(mobile: boolean): Keyframe[] {
     // Desktop alternates sides: even projects frame the scene right of the
     // text, odd ones left of it (the card moves across), so six projects read
     // as six places rather than one repeated layout.
-    const fx = i % 2 ? -0.26 : 0.26;
-    kf.push({ at: pin, ease: TRAVEL, s: { ...ENV.projects[i], ...orb(P, face + shot.from[0], shot.from[1], shot.from[2]), ...side(fx, 0.24), calm: 0.3, project: i, systemsOut: 1, signal: s } });
-    kf.push({ at: pout, ease: HOLD, s: { ...orb(P, face + shot.to[0], shot.to[1], shot.to[2]), ...side(fx, 0.24), calm: 0.3, project: i, signal: s + 0.004 } });
+    // GEM (the widest composition) sits a touch further back and less far
+    // left on desktop, so its outer labels keep a margin from the screen edge
+    // and from the card; same angles, so the perspective is unchanged.
+    const wide = !mobile && i === PROJECT_COUNT - 1;
+    const fx = i % 2 ? (wide ? -0.245 : -0.26) : 0.26;
+    const back = wide ? 1.08 : 1;
+    kf.push({ at: pin, ease: TRAVEL, s: { ...ENV.projects[i], ...orb(P, face + shot.from[0], shot.from[1], shot.from[2] * back), ...side(fx, 0.24), calm: 0.3, project: i, systemsOut: 1, signal: s } });
+    kf.push({ at: pout, ease: HOLD, s: { ...orb(P, face + shot.to[0], shot.to[1], shot.to[2] * back), ...side(fx, 0.24), calm: 0.3, project: i, signal: s + 0.004 } });
     prevOut = pout;
   });
 

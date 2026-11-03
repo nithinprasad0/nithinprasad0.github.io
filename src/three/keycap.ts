@@ -74,6 +74,6 @@ export function createLegendTexture(letter: string, font: string): CanvasTexture
   ctx.fillText(letter, size / 2, size / 2 + 8);
   const texture = new CanvasTexture(canvas);
   texture.colorSpace = SRGBColorSpace;
-  texture.anisotropy = 4;
+  texture.anisotropy = 8;
   return texture;
 }
