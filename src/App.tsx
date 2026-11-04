@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { profile } from "./content/portfolio";
 import { OpeningScreen } from "./components/OpeningScreen";
-import { ChapterRail, SiteIndex, useActiveChapter } from "./components/Chapters";
+import { SiteIndex } from "./components/Chapters";
 import { Hero } from "./components/Hero";
 import { WorldStage } from "./components/WorldStage";
 import { Workbench } from "./components/Workbench";
@@ -55,7 +55,7 @@ function useReveals() {
           if (el) reveal([el]);
         };
         document.addEventListener("focusin", onFocus);
-        // Backstop for navigation jumps (index, rail, Next links, workbench
+        // Backstop for navigation jumps (index, Next links, workbench
         // shortcuts): once scrolling settles, anything inside the viewport
         // that is still hidden is revealed. Runs only after scroll stops.
         let settle: number | undefined;
@@ -96,7 +96,6 @@ function useReveals() {
 }
 
 export function App() {
-  const active = useActiveChapter();
   const progressRef = useRef<HTMLDivElement>(null);
   useReveals();
 
@@ -148,8 +147,6 @@ export function App() {
       </main>
 
       <Workbench />
-
-      <ChapterRail active={active} />
 
       {/* The index rests on its own near-solid surface below the closing scene. */}
       <footer className="relative z-[1] border-t border-hairline bg-obsidian/95">
