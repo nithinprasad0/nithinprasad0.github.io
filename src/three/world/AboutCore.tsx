@@ -29,8 +29,8 @@ import { STATION, story } from "./story";
 // Each orbit has its own inclination, so the system reads as depth rather
 // than a flat target; `angle` is where its node rests during the reading
 // hold (upper arcs pass in front of the core, lower arcs behind it).
-// `mid` (1024–1279px, where the chapter rail leaves little room on the
-// right) keeps every node off the system's right edge; `compact` (phones
+// `mid` (1024–1279px, where the open space beside the text card is
+// narrower) keeps every node off the system's right edge; `compact` (phones
 // and tablets) spreads them so the three labels never meet.
 const RINGS = [
   { radius: 1.85, tilt: [1.0, 0.18, -0.14], from: [2.3, 0.35, 0.4], angle: 2.05, mid: 2.3, compact: 2.4, sweep: 2.2, color: "#eef4ff" },
@@ -75,7 +75,7 @@ const outside = (r: Rect, b: Bounds) =>
 /**
  * The name chip and the (open) description for a label on one side of its
  * node. The description slides (shift x/y) to stay inside `room`: the open
- * screen beside the text card, rail or not.
+ * screen beside the text card.
  */
 function labelRects(p: Point, side: Side, descW: number, room: Bounds): { chip: Rect; desc: Rect; dx: number; dy: number } {
   const { x, y, nameW: w } = p;
@@ -106,13 +106,11 @@ function placeLabels(
   b: Bounds,
   screen: Bounds,
   descW: number,
-  rail: Rect | null,
   card: Rect | null,
 ) {
   const { cx, cy, coreR } = core;
   const coreRect: Rect = [cx - coreR, cy - coreR, cx + coreR, cy + coreR];
-  // Descriptions stay on screen and off the card; the chapter rail is an
-  // obstacle (it sits above the scene and would take the pointer).
+  // Descriptions stay on screen and off the card.
   const room: Bounds = { minX: b.minX, maxX: screen.maxX, minY: screen.minY, maxY: screen.maxY };
   const placed: Rect[] = [];
   for (const p of points) {
@@ -128,10 +126,8 @@ function placeLabels(
         outside(chip, screen) * 40 +
         outside(chip, b) * 4 +
         (overlaps(chip, coreRect) ? 600 : 0) +
-        (rail && overlaps(chip, rail) ? 800 : 0) +
         (card && overlaps(chip, card, 8) ? 800 : 0) +
         (card && overlaps(desc, card, 8) ? 200 : 0) +
-        (rail && overlaps(desc, [rail[2] - 44, rail[1], rail[2], rail[3]], 0) ? 60 : 0) +
         (placed.some((q) => overlaps(chip, q)) ? 1000 : 0) +
         (others.some((q) => overlaps(chip, q)) ? 300 : 0) +
         // A description that had to slide far, or still doesn't fit, or would
@@ -183,7 +179,6 @@ export function AboutCore() {
   useThree((s) => s.size);
   const width = window.innerWidth;
   const narrow = width <= 520;
-  const wide = width >= 1024;
   // Phones and tablets (text below the scene): a larger system that settles
   // sooner, since the text card rises over it partway through the chapter.
   const compact = width <= 850;
@@ -204,7 +199,6 @@ export function AboutCore() {
   const glow = useRef<{ i: number; v: number }[]>(RINGS.map((_, i) => ({ i, v: 0 })));
   const scratch = useMemo(() => ({ p: new Vector3(), c: new Vector3(), cam: new Vector3() }), []);
   const cardRef = useRef<Element | null>(null);
-  const railRef = useRef<Element | null>(null);
   const shownRef = useRef(false);
 
   // Per-ring materials, so each orbit can light up on its own.
@@ -255,8 +249,8 @@ export function AboutCore() {
     if (g) {
       g.scale.setScalar(fit.scale * (1 + o * 2.4) * (0.001 + enter * 0.999));
       // Desktop: left of the lens-shifted centre, so the system (and its
-      // node controls) sits in the open space between the text card and
-      // the chapter rail, which is narrower on mid-size screens.
+      // node controls) sits in the open space beside the text card, which
+      // is narrower on mid-size screens.
       g.position.set(o * 4.5 + fit.x, -o * 0.8, -o * 5);
       // The camera sweeps around the orbit through the chapter; the system
       // turns most of the way with it, so the three nodes stay spread out
@@ -333,10 +327,6 @@ export function AboutCore() {
 
     cardRef.current ??= document.querySelector("#about .chapter-card");
     const card = cardRef.current?.getBoundingClientRect();
-    // The chapter rail (desktop): its hover area reaches well left of its ticks.
-    railRef.current ??= document.querySelector(".chapter-rail ol");
-    const railBox = wide ? railRef.current?.getBoundingClientRect() : undefined;
-    const rail: Rect | null = railBox?.width ? [railBox.left - 6, railBox.top - 6, railBox.right, railBox.bottom + 6] : null;
     // Where a label may go: never over the text card.
     const bounds = {
       minX: card && card.right < vw * 0.7 ? card.right + 12 : 12,
@@ -362,8 +352,7 @@ export function AboutCore() {
       const above = card && card.right >= vw * 0.7 ? 48 : 12;
       const underCard = card ? x > card.left - 12 && x < card.right + 12 && y > card.top - above && y < card.bottom + 12 : false;
       const behindCore = depth > coreDepth && Math.hypot(x - cx, y - cy) < coreR;
-      const underRail = rail ? x > rail[0] - 22 && y > rail[1] - 22 && y < rail[3] + 22 : false;
-      const hidden = offscreen || underCard || behindCore || underRail;
+      const hidden = offscreen || underCard || behindCore;
       if (a.hasAttribute("data-hidden") !== hidden) {
         a.toggleAttribute("data-hidden", hidden);
         a.inert = hidden;
@@ -380,7 +369,6 @@ export function AboutCore() {
       bounds,
       { minX: 8, maxX: vw - 8, minY: 8, maxY: bounds.maxY },
       Math.min(208, vw - 48),
-      rail,
       card ? [card.left, card.top, card.right, card.bottom] : null,
     );
   });

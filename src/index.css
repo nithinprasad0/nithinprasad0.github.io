@@ -590,50 +590,6 @@
   }
 }
 
-/* ----------------------------------------------------- Chapter wayfinding */
-.chapter-rail {
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-.chapter-rail[data-shown],
-.chapter-rail:focus-within {
-  opacity: 1;
-}
-.chapter-rail-label {
-  /* A small dark backing: the rail sits over the scene, so it brings its own contrast. */
-  padding: 3px 8px;
-  border-radius: 999px;
-  background: rgb(8 10 15);
-  color: var(--color-silver);
-  opacity: 0;
-  transform: translateX(6px);
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease;
-  text-shadow: 0 0 12px rgb(8 10 15 / 0.9);
-}
-.chapter-rail[data-announce] a[aria-current] .chapter-rail-label,
-.chapter-rail a:hover .chapter-rail-label,
-.chapter-rail a:focus-visible .chapter-rail-label {
-  opacity: 1;
-  transform: none;
-}
-.chapter-rail-tick {
-  width: 14px;
-  background: rgb(185 194 208 / 0.35);
-  transition:
-    width 0.35s ease,
-    background-color 0.35s ease;
-}
-.chapter-rail a:hover .chapter-rail-tick {
-  width: 22px;
-  background: var(--color-silver);
-}
-.chapter-rail a[aria-current] .chapter-rail-tick {
-  width: 30px;
-  background: var(--color-ice);
-  box-shadow: 0 0 8px rgb(169 223 255 / 0.6);
-}
 /* Stack: the pathway currently lit in the 3D constellation is marked here too. */
 .pathway {
   transition:
