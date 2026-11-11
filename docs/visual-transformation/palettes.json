@@ -1,0 +1,93 @@
+{
+ "palettes": {
+  "1 Graphite & Brass": {
+   "bg": "#0e0d0c",
+   "bg2": "#171513",
+   "surface": "#1d1b19",
+   "surface2": "#26231f",
+   "border": "#332f2a",
+   "accent": "#c9a46a",
+   "accent2": "#8fa3b8",
+   "text": "#f2eee8",
+   "muted": "#a8a197",
+   "onAccent": "#15120e",
+   "light_key": "#ffe2c0",
+   "light_rim": "#c9a46a",
+   "light_fill": "#8fa3b8"
+  },
+  "2 Studio Graphite": {
+   "bg": "#0d0f12",
+   "bg2": "#14171b",
+   "surface": "#1a1e23",
+   "surface2": "#23282e",
+   "border": "#2f353c",
+   "accent": "#86a9c8",
+   "accent2": "#c5cbd4",
+   "text": "#eef1f4",
+   "muted": "#9ba4ae",
+   "onAccent": "#0d1116",
+   "light_key": "#f4f6f8",
+   "light_rim": "#86a9c8",
+   "light_fill": "#5d6772"
+  },
+  "3 Ink & Copper": {
+   "bg": "#0a1114",
+   "bg2": "#101a1e",
+   "surface": "#152126",
+   "surface2": "#1d2b31",
+   "border": "#2a3a40",
+   "accent": "#d4905f",
+   "accent2": "#9fc4b9",
+   "text": "#eef3f2",
+   "muted": "#9aabaa",
+   "onAccent": "#170f09",
+   "light_key": "#ffd7b5",
+   "light_rim": "#d4905f",
+   "light_fill": "#4e8a8f"
+  }
+ },
+ "contrast": {
+  "0 Current": {
+   "text/bg": 18.14,
+   "text/surface": 16.74,
+   "muted/bg": 6.93,
+   "muted/surface": 6.39,
+   "accent/bg": 5.14,
+   "accent/surface": 4.74,
+   "accent2/surface": 12.78
+  },
+  "1 Graphite & Brass": {
+   "text/bg": 16.8,
+   "text/surface": 14.86,
+   "muted/bg": 7.59,
+   "muted/surface": 6.71,
+   "accent/bg": 8.32,
+   "accent/surface": 7.36,
+   "accent2/surface": 6.62,
+   "onAccent/accent": 8.0,
+   "muted/surface2": 6.11
+  },
+  "2 Studio Graphite": {
+   "text/bg": 16.93,
+   "text/surface": 14.77,
+   "muted/bg": 7.6,
+   "muted/surface": 6.63,
+   "accent/bg": 7.79,
+   "accent/surface": 6.8,
+   "accent2/surface": 10.26,
+   "onAccent/accent": 7.69,
+   "muted/surface2": 5.88
+  },
+  "3 Ink & Copper": {
+   "text/bg": 16.99,
+   "text/surface": 14.67,
+   "muted/bg": 7.96,
+   "muted/surface": 6.87,
+   "accent/bg": 7.21,
+   "accent/surface": 6.23,
+   "accent2/surface": 8.67,
+   "onAccent/accent": 7.17,
+   "muted/surface2": 6.09
+  }
+ }
+}

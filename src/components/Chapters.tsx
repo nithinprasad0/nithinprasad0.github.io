@@ -10,12 +10,12 @@ import { navItems } from "../content/portfolio";
 export function SiteIndex() {
   return (
     <nav id="site-index" aria-label="Section index" className="scroll-mt-6">
-      <p className="eyebrow mb-4 text-[#a3abb8]">Index</p>
+      <p className="label mb-4">Index</p>
       <ol className="grid grid-cols-2 gap-x-6 gap-y-1 min-[521px]:grid-cols-4">
         {navItems.map((item, i) => (
           <li key={item.id}>
-            <a className="inline-flex min-h-11 items-center gap-2 text-[15px] text-[#c9d0db] hover:text-soft-white" href={`#${item.id}`}>
-              <span className="font-display text-xs text-[#9aa3b1]">{String(i + 1).padStart(2, "0")}</span>
+            <a className="inline-flex min-h-11 items-center gap-2 text-[15px] text-text-secondary hover:text-text-primary" href={`#${item.id}`}>
+              <span className="font-display text-xs text-text-muted">{String(i + 1).padStart(2, "0")}</span>
               {item.label}
             </a>
           </li>
@@ -31,8 +31,8 @@ export function NextChapter({ id }: { id: string }) {
   if (!item) return null;
   return (
     <p className="mt-10">
-      <a className="chapter-next inline-flex min-h-11 items-center gap-2 font-display text-sm text-[#b9c2d0] hover:text-soft-white" href={`#${item.id}`}>
-        <span className="text-[#9aa3b1]">Next</span> {item.label}
+      <a className="chapter-next inline-flex min-h-11 items-center gap-2 font-display text-sm text-text-muted hover:text-text-primary" href={`#${item.id}`}>
+        <span className="text-text-muted">Next</span> {item.label}
         <span aria-hidden="true">↓</span>
       </a>
     </p>

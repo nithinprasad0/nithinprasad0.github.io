@@ -30,7 +30,7 @@ function SectionHeader({ id, index, label, title }: { id: string; index: string;
   return (
     <header className="reveal mb-10 grid gap-4 min-[851px]:mb-14 min-[851px]:grid-cols-[200px_1fr] min-[851px]:gap-8 world:min-[851px]:mb-10 world:min-[851px]:grid-cols-1 world:min-[851px]:gap-4">
       <p className="eyebrow min-[851px]:pt-4 world:min-[851px]:pt-0">
-        {index} <span className="label-muted text-cool-grey">/ {label}</span>
+        {index} <span className="text-text-muted">/ {label}</span>
       </p>
       <h2 id={`${id}-title`} className="section-title max-w-[16ch]">
         {title}
@@ -99,17 +99,17 @@ export function About() {
   return (
     <Section id="about" index="01" label="About" title={about.headline} next="experience" material="material-warm" scene={<OrbitNodes />}>
       <div className="grid gap-10 min-[1024px]:grid-cols-[1.25fr_1fr] min-[1024px]:gap-14 world:min-[1024px]:grid-cols-1 world:min-[1024px]:gap-8">
-        <div className="reveal space-y-5 text-lg leading-relaxed text-[#c3c9d4] min-[851px]:text-xl">
+        <div className="reveal space-y-5 text-lg leading-relaxed text-text-secondary min-[851px]:text-xl">
           {about.paragraphs.map((p) => (
             <p key={p}>{p}</p>
           ))}
         </div>
-        <dl className="reveal panel divide-y divide-hairline">
+        <dl className="reveal panel divide-y divide-border-subtle">
           {about.facts.map((fact) => (
             <div key={fact.label} className="px-6 py-5">
-              <dt className="eyebrow mb-2">{fact.label}</dt>
-              <dd className="font-display text-lg font-medium text-soft-white">{fact.value}</dd>
-              <dd className="mt-1 text-sm text-cool-grey">{fact.detail}</dd>
+              <dt className="label mb-2">{fact.label}</dt>
+              <dd className="font-display text-lg font-medium text-text-primary">{fact.value}</dd>
+              <dd className="mt-1 text-sm text-text-muted">{fact.detail}</dd>
             </div>
           ))}
         </dl>
@@ -129,40 +129,40 @@ export function Experience() {
       {experience.map((job) => (
         <article key={job.title} className="reveal">
           <p className="flex flex-wrap items-center gap-x-3 gap-y-1 font-display text-sm">
-            <span className="font-semibold text-soft-white">{job.org}</span>
-            <span aria-hidden="true" className="text-cool-grey">
+            <span className="font-semibold text-text-primary">{job.org}</span>
+            <span aria-hidden="true" className="text-text-muted">
               ·
             </span>
-            <span className="text-[#b9c0cc]">{job.type}</span>
-            <span aria-hidden="true" className="text-cool-grey">
+            <span className="text-text-muted">{job.type}</span>
+            <span aria-hidden="true" className="text-text-muted">
               ·
             </span>
-            <span className="text-ice">{job.period}</span>
+            <span className="text-(--chapter-accent)">{job.period}</span>
           </p>
           <h3 className="mt-4 font-display text-[clamp(28px,3.4vw,40px)] leading-[1.1] font-semibold tracking-[-0.02em]">
             {job.title}
           </h3>
-          <p className="mt-4 max-w-[52ch] text-lg leading-relaxed text-[#c9cfda]">{job.summary}</p>
+          <p className="mt-4 max-w-[52ch] text-lg leading-relaxed text-text-secondary">{job.summary}</p>
 
-          <ol className="mt-8 border-t border-hairline min-[521px]:mt-10">
+          <ol className="mt-8 border-t border-border-subtle min-[521px]:mt-10">
             {job.responsibilities.map((r, i) => (
               <li
                 key={r.area}
                 data-exp-area={i}
-                className="exp-area grid grid-cols-[2.5rem_1fr] gap-x-3 border-b border-hairline py-5 min-[521px]:grid-cols-[3.5rem_1fr] min-[521px]:gap-x-4 min-[521px]:py-6"
+                className="exp-area grid grid-cols-[2.5rem_1fr] gap-x-3 border-b border-border-subtle py-5 min-[521px]:grid-cols-[3.5rem_1fr] min-[521px]:gap-x-4 min-[521px]:py-6"
               >
-                <span aria-hidden="true" className="exp-num pt-0.5 font-display text-sm font-medium tracking-[0.08em] text-ice">
+                <span aria-hidden="true" className="exp-num pt-0.5 font-display text-sm font-medium tracking-[0.08em] text-(--chapter-accent)">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <div>
-                  <h4 className="font-display text-lg leading-snug font-semibold text-soft-white">{r.area}</h4>
-                  <p className="mt-2 text-[15px] leading-relaxed text-[#b4bbc7]">{r.text}</p>
+                  <h4 className="font-display text-lg leading-snug font-semibold text-text-primary">{r.area}</h4>
+                  <p className="mt-2 text-[15px] leading-relaxed text-text-secondary">{r.text}</p>
                   {r.links && (
                     <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-2" aria-label="Live websites">
                       {r.links.map((l) => (
                         <li key={l.href}>
                           <a
-                            className="inline-flex min-h-7 items-center gap-1.5 text-sm text-ice underline decoration-ice/40 underline-offset-4 hover:decoration-ice"
+                            className="link inline-flex min-h-7 items-center gap-1.5 text-sm"
                             href={l.href}
                             target="_blank"
                             rel="noopener noreferrer"
@@ -179,14 +179,14 @@ export function Experience() {
           </ol>
 
           {job.approach && (
-            <p className="mt-6 text-[15px] leading-relaxed text-[#b4bbc7]">
-              <span className="eyebrow mr-2 text-cool-grey">Approach</span>
+            <p className="mt-6 text-[15px] leading-relaxed text-text-secondary">
+              <span className="label mr-2">Approach</span>
               {job.approach}
             </p>
           )}
 
           <div className="mt-8">
-            <p className="eyebrow mb-3 text-cool-grey">Technologies</p>
+            <p className="label mb-3">Technologies</p>
             <TagList tags={job.tags} label={`${job.title} technologies`} />
           </div>
         </article>
@@ -201,7 +201,7 @@ export function Experience() {
 // cover. In world mode it is hidden — the 3D illustration takes its place.
 function ProjectCover({ project }: { project: Project }) {
   return (
-    <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-hairline bg-obsidian world:hidden">
+    <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-border-subtle bg-background world:hidden">
       {project.screenshot ? (
         <img
           src={project.screenshot.src}
@@ -214,18 +214,18 @@ function ProjectCover({ project }: { project: Project }) {
         />
       ) : (
         <div aria-hidden="true" className="project-cover absolute inset-0">
-          <span className="absolute inset-0 grid place-items-center font-display text-[clamp(88px,13vw,180px)] leading-none font-bold tracking-[-0.05em] text-transparent [-webkit-text-stroke:1px_rgba(143,200,255,.35)]">
+          <span className="absolute inset-0 grid place-items-center font-display text-[clamp(88px,13vw,180px)] leading-none font-bold tracking-[-0.05em] text-transparent [-webkit-text-stroke:1px_rgba(201,164,106,.32)]">
             {project.mark}
           </span>
-          <span className="eyebrow absolute bottom-5 left-5 text-[10px] text-cool-grey">{project.name}</span>
+          <span className="label absolute bottom-5 left-5 text-xs">{project.name}</span>
         </div>
       )}
     </div>
   );
 }
 
-/** One accent per project (see .project-stop in index.css); undefined keeps ice blue. */
-const PROJECT_ACCENTS = [undefined, "violet", "electric", "pearl", "silver", "champagne"];
+/** One accent per project, the hue of its 3D environment (see .project-stop in index.css). */
+const PROJECT_ACCENTS = ["teal", "mauve", "indigo", "pearl", "steel", "brass"];
 
 export function Projects() {
   return (
@@ -233,9 +233,9 @@ export function Projects() {
       <div className="container-page">
         <div className={`${COLUMN} world:glass world:p-6 world:min-[521px]:p-9`}>
           <SectionHeader id="projects" index="03" label="Projects" title="Selected Projects" />
-          <p className="reveal -mt-4 hidden max-w-[52ch] text-sm leading-relaxed text-cool-grey world:block">
-            Each project has its own scene along the route. The 3D visuals are abstract illustrations of what each
-            system does — not product screenshots.
+          <p className="reveal -mt-4 hidden max-w-[52ch] text-sm leading-relaxed text-text-muted world:block">
+            Each project has its own scene along the route. The 3D scenes illustrate what each system does — they
+            are not product screenshots.
           </p>
         </div>
 
@@ -251,15 +251,15 @@ export function Projects() {
                 </div>
                 <div className="px-2 pb-3 min-[1024px]:col-span-5 min-[1024px]:px-2 min-[1024px]:pb-0 world:p-0">
                   <p className="project-index font-display text-sm">
-                    {String(i + 1).padStart(2, "0")} <span className="text-soft-white/70">/{String(projects.length).padStart(2, "0")}</span>
+                    {String(i + 1).padStart(2, "0")} <span className="text-text-muted">/{String(projects.length).padStart(2, "0")}</span>
                   </p>
-                  <h3 id={`project-${i}`} className="mt-2 font-display text-[clamp(26px,3vw,38px)] leading-tight font-semibold tracking-[-0.02em]">
+                  <h3 id={`project-${i}`} className="project-title mt-2">
                     {project.name}
                   </h3>
-                  <p className="mt-4 text-[16px] leading-relaxed text-[#c3c9d4]">{project.description}</p>
+                  <p className="mt-4 text-[16px] leading-relaxed text-text-secondary">{project.description}</p>
                   {project.tags.length > 0 && (
                     <>
-                      <h4 className="eyebrow mt-6 mb-3 text-[#aab1be]">Built with</h4>
+                      <h4 className="label mt-6 mb-3">Built with</h4>
                       <TagList tags={project.tags} label={`${project.name} technologies`} />
                     </>
                   )}
@@ -270,7 +270,7 @@ export function Projects() {
                       {project.links.map((link) => (
                         <li key={link.href}>
                           <a
-                            className={`btn btn-icon ${link.kind === "demo" ? "btn-dark-primary" : "btn-dark"}`}
+                            className={`btn btn-icon ${link.kind === "demo" ? "btn-primary" : "btn-secondary"}`}
                             href={link.href}
                             target="_blank"
                             rel="noopener noreferrer"
@@ -290,9 +290,9 @@ export function Projects() {
           ))}
         </ol>
 
-        <p className={`projects-more reveal mt-10 text-cool-grey world:mt-0 ${COLUMN}`}>
+        <p className={`projects-more reveal mt-10 text-text-muted world:mt-0 ${COLUMN}`}>
           More of my work is on{" "}
-          <a className="text-ice underline decoration-ice/40 underline-offset-4 hover:decoration-ice" href={profile.github} target="_blank" rel="noopener noreferrer">
+          <a className="link -my-3 py-3" href={profile.github} target="_blank" rel="noopener noreferrer">
             GitHub
           </a>
           .
@@ -308,16 +308,16 @@ export function Projects() {
 /* ---------------------------------------------------------------- Stack */
 
 /** Each technology group's accent: mobile, web, Python, AI, integration, workflow. */
-const PATHWAY_ACCENTS = [undefined, "violet", "champagne", "electric", "silver", "silver"];
+const PATHWAY_ACCENTS = ["steel", "mauve", "brass", "patina", "pearl", "pearl"];
 
 function Tech({ name, quiet = false }: { name: string; quiet?: boolean }) {
   const icon = stackIcons[name];
   return (
-    <span className={`inline-flex items-center gap-2 rounded-lg border px-3 py-1.5 text-sm ${quiet ? "border-white/10 text-[#b9c0cc]" : "tech-pill border-ice/25 bg-white/[.03] text-soft-white"}`}>
+    <span className={`inline-flex items-center gap-2 rounded-lg border px-3 py-1.5 text-sm ${quiet ? "border-border-subtle text-text-muted" : "tech-pill border-border bg-hover text-text-primary"}`}>
       {icon ? (
-        <StackIcon slug={icon} className="size-4 shrink-0 text-[#8FC8FF]" />
+        <StackIcon slug={icon} className="size-4 shrink-0 text-accent-secondary" />
       ) : (
-        <span aria-hidden="true" className="size-1.5 rounded-full bg-ice" />
+        <span aria-hidden="true" className="size-1.5 rounded-full bg-text-muted" />
       )}
       {name}
     </span>
@@ -331,27 +331,27 @@ export function Stack() {
     <Section id="stack" index="04" label="Stack" title="Technical Stack" next="leadership">
       {/* AI specialisation first — the skills that differentiate the profile. */}
       <div className="reveal mb-8">
-        <p className="label-muted eyebrow mb-3 text-cool-grey">Specialisation</p>
+        <p className="label mb-3">Specialisation</p>
         <ul className="flex flex-wrap gap-2.5">
           {profile.specialisation.map((s) => (
             <li
               key={s}
-              className="rounded-full border border-electric/50 bg-electric/[.12] px-4 py-2 font-display text-[15px] font-medium text-soft-white"
+              className="rounded-full border border-accent-primary/40 bg-accent-primary/[.08] px-4 py-2 font-display text-[15px] font-medium text-text-primary"
             >
               {s}
             </li>
           ))}
         </ul>
       </div>
-      <ol className="divide-y divide-hairline border-y border-hairline">
+      <ol className="divide-y divide-border-subtle border-y border-border-subtle">
         {stackPathways.map((path, k) => (
           <li key={path.title} data-pathway={k} data-accent={PATHWAY_ACCENTS[k]} className="pathway reveal grid gap-3 py-5">
-            <h3 className="eyebrow text-cool-grey">{path.title}</h3>
+            <h3 className="label font-semibold">{path.title}</h3>
             <p className="flex flex-wrap items-center gap-2">
               {path.chain.map((name, i) => (
                 <span key={name} className="inline-flex items-center gap-2">
                   {i > 0 && (
-                    <span aria-label="connects to" className="text-ice">
+                    <span aria-label="connects to" className="text-text-muted">
                       →
                     </span>
                   )}
@@ -360,7 +360,7 @@ export function Stack() {
               ))}
               {path.with.length > 0 && (
                 <>
-                  <span aria-label="with" className="mx-1 text-soft-white/70">
+                  <span aria-label="with" className="mx-1 text-text-muted">
                     +
                   </span>
                   {path.with.map((name) => (
@@ -381,19 +381,19 @@ export function Stack() {
 function Timeline({ entries }: { entries: TimelineEntry[] }) {
   return (
     <ol className="relative min-[851px]:ml-[200px] min-[851px]:pl-8">
-      <span aria-hidden="true" className="absolute top-2 bottom-2 left-[5px] w-px bg-hairline min-[851px]:left-0" />
+      <span aria-hidden="true" className="absolute top-2 bottom-2 left-[5px] w-px bg-border-subtle min-[851px]:left-0" />
       {entries.map((entry) => (
         <li key={entry.title} className="reveal relative pb-12 pl-8 last:pb-0 min-[851px]:pl-0">
-          <span aria-hidden="true" className="absolute top-2 left-0 size-[11px] rounded-full border-2 border-electric bg-obsidian min-[851px]:-left-[37.5px]" />
+          <span aria-hidden="true" className="absolute top-2 left-0 size-[11px] rounded-full border-2 border-(--chapter-accent) bg-background min-[851px]:-left-[37.5px]" />
           <div className="grid gap-2 min-[1024px]:grid-cols-[180px_1fr] min-[1024px]:gap-8">
             <div>
-              {entry.period && <p className="font-display text-sm font-medium text-ice">{entry.period}</p>}
-              <p className="mt-1 text-sm text-cool-grey">{entry.org}</p>
+              {entry.period && <p className="font-display text-sm font-medium text-(--chapter-accent)">{entry.period}</p>}
+              <p className="mt-1 text-sm text-text-muted">{entry.org}</p>
             </div>
             <div>
               <h3 className="font-display text-[clamp(20px,2.2vw,24px)] leading-snug font-semibold tracking-[-0.01em]">{entry.title}</h3>
               {entry.points.map((p) => (
-                <p key={p} className="mt-2 leading-relaxed text-[#c3c9d4]">
+                <p key={p} className="mt-2 leading-relaxed text-text-secondary">
                   {p}
                 </p>
               ))}
@@ -435,20 +435,20 @@ export function Certifications() {
           <section
             key={group.title}
             aria-labelledby={`cert-${group.title}`}
-            data-accent={[undefined, "violet", "champagne"][g]}
+            data-accent={[undefined, "steel", "brass"][g]}
             className="cert-group reveal grid gap-5 min-[851px]:grid-cols-[200px_minmax(0,1fr)] min-[851px]:gap-10"
           >
             {/* Category column: each discipline has its own accent rule; AI leads the list. */}
             <header>
               <span aria-hidden="true" className={`cert-rule mb-3 block h-0.5 ${g === 0 ? "w-10" : "w-8"}`} />
-              <h3 id={`cert-${group.title}`} className="font-display text-lg leading-snug font-semibold text-soft-white min-[851px]:text-xl">
+              <h3 id={`cert-${group.title}`} className="font-display text-lg leading-snug font-semibold text-text-primary min-[851px]:text-xl">
                 {group.title}
               </h3>
-              <p className="mt-1 text-sm text-[#a3abb8]">
+              <p className="mt-1 text-sm text-text-muted">
                 {group.items.length} {group.items.length === 1 ? "certification" : "certifications"}
               </p>
             </header>
-            <ol className="relative max-w-[760px] border-l border-hairline pl-6 min-[521px]:pl-8">
+            <ol className="relative max-w-[760px] border-l border-border-subtle pl-6 min-[521px]:pl-8">
               {group.items.map((c) => {
                 const featured = c.priority <= 4;
                 return (
@@ -456,7 +456,7 @@ export function Certifications() {
                     <span
                       aria-hidden="true"
                       className={`absolute top-1.5 -left-[29px] rounded-full min-[521px]:-left-[37px] ${
-                        featured ? "cert-marker-featured size-[11px] border-2 bg-obsidian" : "ml-[2px] size-[7px] bg-cool-grey/70"
+                        featured ? "cert-marker-featured size-[11px] border-2 bg-background" : "ml-[2px] size-[7px] bg-text-muted/60"
                       }`}
                     />
                     {/* Phones: issuer · date on one line. Wider: the date sits in its own aligned column. */}
@@ -464,14 +464,14 @@ export function Certifications() {
                       <p
                         className={`col-span-2 text-balance min-[640px]:col-span-1 ${
                           featured
-                            ? "font-display text-[17px] leading-snug font-semibold text-soft-white min-[521px]:text-[clamp(18px,1.9vw,21px)]"
-                            : "font-display text-base leading-snug font-medium text-[#d5dae3]"
+                            ? "font-display text-[17px] leading-snug font-semibold text-text-primary min-[521px]:text-[clamp(18px,1.9vw,21px)]"
+                            : "font-display text-base leading-snug font-medium text-text-secondary"
                         }`}
                       >
                         {c.name}
                       </p>
-                      <p className="mt-1 text-sm text-[#b4bbc7] min-[640px]:row-start-2">{c.issuer}</p>
-                      <p className="mt-1 font-display text-sm text-ice tabular-nums before:mr-2 before:text-cool-grey before:content-['·'] min-[640px]:col-start-2 min-[640px]:row-start-1 min-[640px]:mt-0 min-[640px]:pt-1 min-[640px]:text-right min-[640px]:before:content-none">
+                      <p className="mt-1 text-sm text-text-secondary min-[640px]:row-start-2">{c.issuer}</p>
+                      <p className="mt-1 font-display text-sm text-(--chapter-accent) tabular-nums before:mr-2 before:text-text-muted before:content-['·'] min-[640px]:col-start-2 min-[640px]:row-start-1 min-[640px]:mt-0 min-[640px]:pt-1 min-[640px]:text-right min-[640px]:before:content-none">
                         <time>{c.issued}</time>
                       </p>
                     </div>
@@ -483,25 +483,25 @@ export function Certifications() {
         ))}
 
         {/* Compact, secondary information. */}
-        <section aria-labelledby="extras-title" className="reveal border-t border-hairline pt-8 min-[851px]:ml-[240px]">
+        <section aria-labelledby="extras-title" className="reveal border-t border-border-subtle pt-8 min-[851px]:ml-[240px]">
           <h3 id="extras-title" className="sr-only">
             Additional information
           </h3>
           <dl className="grid gap-6 min-[851px]:grid-cols-[1fr_1.4fr] min-[851px]:gap-10">
             <div>
-              <dt className="eyebrow mb-2 text-cool-grey">Languages</dt>
-              <dd className="text-[15px] leading-relaxed text-[#c9cfda]">
+              <dt className="label mb-2">Languages</dt>
+              <dd className="text-[15px] leading-relaxed text-text-secondary">
                 {extras.languages.map((l, i) => (
                   <span key={l.name}>
-                    {i > 0 && <span aria-hidden="true" className="mx-2 text-cool-grey">·</span>}
-                    {l.name} <span className="text-[#9aa3b1]">({l.level})</span>
+                    {i > 0 && <span aria-hidden="true" className="mx-2 text-text-muted">·</span>}
+                    {l.name} <span className="text-text-muted">({l.level})</span>
                   </span>
                 ))}
               </dd>
             </div>
             <div>
-              <dt className="eyebrow mb-2 text-cool-grey">Publication</dt>
-              <dd className="text-[15px] leading-relaxed text-[#c9cfda]">{extras.publication}</dd>
+              <dt className="label mb-2">Publication</dt>
+              <dd className="text-[15px] leading-relaxed text-text-secondary">{extras.publication}</dd>
             </div>
           </dl>
         </section>
@@ -514,37 +514,37 @@ export function Certifications() {
 
 export function Contact() {
   return (
-    <section id="contact" aria-labelledby="contact-title" className="chapter chapter-finale relative isolate overflow-hidden border-t border-hairline">
+    <section id="contact" aria-labelledby="contact-title" className="chapter chapter-finale relative isolate overflow-hidden border-t border-border-subtle">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(55%_60%_at_78%_58%,rgba(57,123,255,.2),transparent_70%),radial-gradient(40%_50%_at_10%_0%,rgba(143,200,255,.06),transparent_70%)] world:hidden"
+        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(55%_60%_at_78%_58%,rgba(201,164,106,.12),transparent_70%),radial-gradient(40%_50%_at_10%_0%,rgba(143,163,184,.06),transparent_70%)] world:hidden"
       />
       <div className="container-page py-24 min-[851px]:py-36 world:py-0">
         {/* World: the closing scene — the invitation centred over the journey's warm horizon. */}
         <div className="finale-copy world:mx-auto world:max-w-[820px] world:text-center">
           <p className="eyebrow reveal">
-            08 <span className="text-[#d3d8e0]">/ Contact</span>
+            08 <span className="text-text-secondary">/ Contact</span>
           </p>
           <h2 id="contact-title" className="reveal mt-6 max-w-[14ch] font-display world:mx-auto text-[clamp(44px,8vw,112px)] leading-[0.95] font-semibold tracking-[-0.045em] world:text-[clamp(40px,5.6vw,84px)]">
             {contact.heading}
           </h2>
-          <p className="reveal mt-8 max-w-[560px] text-lg leading-relaxed text-[#c9ced8] world:mx-auto">{contact.body}</p>
+          <p className="reveal mt-8 max-w-[560px] text-lg leading-relaxed text-text-secondary world:mx-auto">{contact.body}</p>
 
           <a
             href={`mailto:${profile.email}`}
-            className="reveal group mt-12 inline-flex max-w-full items-center gap-3 border-b border-white/15 pb-3 font-display text-[clamp(20px,3.4vw,40px)] font-medium break-all text-soft-white transition-colors hover:border-electric world:text-[clamp(18px,2.4vw,30px)]"
+            className="reveal group mt-12 inline-flex min-h-12 max-w-full items-center gap-3 border-b border-border pb-3 font-display text-[clamp(20px,3.4vw,40px)] font-medium break-all text-text-primary transition-colors hover:border-accent-primary world:text-[clamp(18px,2.4vw,30px)]"
           >
-            <MailIcon className="size-[0.8em] shrink-0 text-ice" />
+            <MailIcon className="size-[0.8em] shrink-0 text-accent-primary" />
             {profile.email}
-            <ArrowUpRightIcon className="size-[0.7em] shrink-0 text-ice transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
+            <ArrowUpRightIcon className="size-[0.7em] shrink-0 text-accent-primary transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
           </a>
 
           <div className="reveal mt-10 grid grid-cols-2 gap-3 min-[521px]:flex min-[521px]:flex-wrap world:min-[521px]:justify-center">
-            <ResumeLink className="btn btn-dark-primary btn-icon col-span-2" />
-            <a className="btn btn-dark btn-icon" href={profile.linkedin} target="_blank" rel="noopener noreferrer">
+            <ResumeLink className="btn btn-primary btn-icon col-span-2" />
+            <a className="btn btn-secondary btn-icon" href={profile.linkedin} target="_blank" rel="noopener noreferrer">
               <LinkedInIcon /> LinkedIn
             </a>
-            <a className="btn btn-dark btn-icon" href={profile.github} target="_blank" rel="noopener noreferrer">
+            <a className="btn btn-secondary btn-icon" href={profile.github} target="_blank" rel="noopener noreferrer">
               <GitHubIcon /> GitHub
             </a>
           </div>
