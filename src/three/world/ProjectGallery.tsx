@@ -324,7 +324,8 @@ function Revo() {
 }
 
 /* -------------------------------------------------------------- Profexia */
-// Learners and teachers exchange skills in both directions, on an admin layer.
+// Teachers share skills as courses; learners enrol and their progress flows
+// back to the teacher, all on an admin layer.
 function Profexia() {
   const I = 2;
   const cluster = (cx: number) => [v(cx, 0.1, 0), ...[0, 1, 2, 3, 4].map((k) => { const t = (k / 5) * Math.PI * 2 + 0.6; return v(cx + Math.cos(t) * 0.55, 0.1 + Math.sin(t) * 0.55, Math.sin(t * 2) * 0.15); })];
@@ -379,7 +380,7 @@ function Profexia() {
         <Packet key={k} i={I} a={0.62 + k * 0.04} b={0.9 + k * 0.025} path={k % 2 ? reversed[k] : p} keep shape="token" />
       ))}
       <Appear i={I} a={0.8} b={0.95}>
-        <Tag text="SKILLS EXCHANGED BOTH WAYS" at={[0, 1.55, 0.3]} />
+        <Tag text="SKILLS TAUGHT AND LEARNED" at={[0, 1.55, 0.3]} />
       </Appear>
     </group>
   );
