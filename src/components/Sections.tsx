@@ -264,11 +264,21 @@ export function Projects() {
                     </>
                   )}
                   {project.links && project.links.length > 0 && (
-                    <ul className="mt-6 flex flex-wrap gap-3">
+                    // The live deployment is the primary action (light, like
+                    // the hero's View Projects); the source is secondary.
+                    <ul className="mt-6 flex flex-wrap gap-3" aria-label={`${project.name} links`}>
                       {project.links.map((link) => (
                         <li key={link.href}>
-                          <a className="btn btn-dark btn-icon" href={link.href} target="_blank" rel="noopener noreferrer">
-                            {link.label} <ArrowUpRightIcon />
+                          <a
+                            className={`btn btn-icon ${link.kind === "demo" ? "btn-dark-primary" : "btn-dark"}`}
+                            href={link.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`${project.name} ${link.kind === "demo" ? "live demo" : "source code on GitHub"} (opens in a new tab)`}
+                          >
+                            {link.kind === "source" && <GitHubIcon />}
+                            {link.label}
+                            {link.kind === "demo" && <ArrowUpRightIcon />}
                           </a>
                         </li>
                       ))}

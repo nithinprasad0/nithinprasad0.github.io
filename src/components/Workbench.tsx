@@ -109,6 +109,15 @@ function outputs(close: () => void): Record<string, { hint: string; out: ReactNo
               <a className="wb-link" href={`#project-${i}`} onClick={go(`#project-${i}`, close)}>
                 {String(i + 1).padStart(2, "0")} {p.name}
               </a>
+              {p.links?.map((l) => (
+                <span key={l.href}>
+                  {" "}
+                  ·{" "}
+                  <a className="wb-link" href={l.href} target="_blank" rel="noopener noreferrer" aria-label={`${p.name} ${l.kind === "demo" ? "live demo" : "source code on GitHub"} (opens in a new tab)`}>
+                    {l.kind === "demo" ? "live demo" : "GitHub"}
+                  </a>
+                </span>
+              ))}
             </li>
           ))}
         </ul>

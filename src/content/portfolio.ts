@@ -136,12 +136,12 @@ export type Project = {
   tags: string[];
   /** Add a real application screenshot here (place the file in public/assets/projects/). */
   screenshot?: { src: string; alt: string; width: number; height: number };
-  /** Only links that are actually public. Profexia must never get one. */
-  links?: { label: string; href: string }[];
+  /** Only links that are actually public: a live deployment (the primary action) and/or its source. */
+  links?: { kind: "demo" | "source"; label: string; href: string }[];
 };
 
-// Profexia's source is not public, so no project carries repo or demo links.
-// No other project links have been confirmed yet either.
+// Only Profexia's links are confirmed (production deployment and public
+// repository); no other project carries links yet.
 export const projects: Project[] = [
   {
     name: "InsightGen",
@@ -164,12 +164,20 @@ export const projects: Project[] = [
   {
     name: "Profexia",
     mark: "Px",
-    // Concept from the owner; stack and features from the current source
-    // (v2, 2026) only — no technologies from the earlier v1 build. Not
-    // publicly released, so no repository or demo link.
+    // From the public repository (v2, 2026) and the live deployment. The web
+    // app's live screens are sign-in, course discovery by skill or teacher,
+    // enrolment and progress, and the teacher workspace; assessments, chat,
+    // live sessions, Razorpay, Judge0 and LiveKit exist in the API (with
+    // tests) but have no screens yet, so they are not presented as features.
+    // No exchange or credit mechanism exists, so it is not called a barter
+    // platform. Tags: the architecture, not every dependency.
     description:
-      "Web-only skill-bartering platform connecting learners and teachers, with courses and enrolment, auto-marked assessments, real-time chat and notifications, and live learning sessions.",
-    tags: ["React", "TypeScript", "Vite", "Python", "FastAPI", "PostgreSQL", "SQLAlchemy", "Alembic", "Redis", "JWT", "bcrypt", "WebSockets", "Docker Compose", "pytest", "Razorpay", "Judge0", "LiveKit"],
+      "Skill-sharing platform where people teach what they know and learn from others: teachers publish skill-tagged courses, and learners discover them by skill or teacher, enrol and track their progress. A FastAPI and PostgreSQL backend provides role-checked APIs, rotating JWT sessions and rate limiting on Redis, and WebSocket messaging; assessments, live sessions, payments, code execution and video are built server-side, with their screens in progress.",
+    tags: ["React", "TypeScript", "Vite", "FastAPI", "PostgreSQL", "SQLAlchemy", "Redis", "WebSockets", "Docker Compose"],
+    links: [
+      { kind: "demo", label: "Live Demo", href: "https://profexia.vercel.app/" },
+      { kind: "source", label: "GitHub", href: "https://github.com/nithinprasad0/profexia" },
+    ],
   },
   {
     // As on the owner's résumé; no source code available.
