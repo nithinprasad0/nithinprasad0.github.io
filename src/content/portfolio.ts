@@ -44,7 +44,7 @@ export const about = {
   headline: "Practical software across mobile, web and AI.",
   paragraphs: [
     "I'm a software developer with an MCA background, building practical technology at the intersection of AI, application development and business process automation.",
-    "At GEM Lubricants / GEM Group I built business websites, role-specific Android applications, Firebase-backed workflows and a Windows .NET connector for TallyPrime. My projects span AI-driven data analysis, a community app and a skill-bartering platform.",
+    "At GEM Lubricants / GEM Group I built business websites, role-specific Android applications, Firebase-backed workflows and a Windows .NET connector for TallyPrime. My projects span AI-driven data analysis, a community app and a skill-sharing platform.",
   ],
   facts: [
     { label: "Next", value: "Incoming System Engineer", detail: "TCS" },

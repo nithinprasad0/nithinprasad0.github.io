@@ -134,12 +134,20 @@ function Link({ a, from, b, to, index }: { a: NodeId; from: [number, number]; b:
 
 // Hand-off: the finished system folds down and slides toward the project
 // corridor as the camera leaves, so the network seems to feed the projects.
+// The folded network rests beside the corridor the first project's camera
+// looks along; a portrait (phone, tablet) lens takes it back into view at
+// the InsightGen hold. So in the last few percent of the fold, after a
+// desktop camera has already turned away from it, it retracts and is hidden
+// before the hold. Scroll-driven, so it reverses exactly; the distant
+// overview (dim) still shows the folded network as before.
 function FoldOut({ children }: { children: ReactNode }) {
   const ref = useRef<Group>(null);
   useFrame(() => {
     const o = smooth(story.systemsOut);
     if (!ref.current) return;
-    ref.current.scale.setScalar(1 - o * 0.65);
+    const away = story.dim > 0.25 ? 0 : smooth((o - 0.97) / 0.03);
+    ref.current.visible = away < 0.999;
+    ref.current.scale.setScalar(Math.max(0.001, (1 - o * 0.65) * (1 - away)));
     ref.current.position.set(-o * 6, -o * 0.4, -o * 9);
     ref.current.rotation.y = o * 0.6;
   });

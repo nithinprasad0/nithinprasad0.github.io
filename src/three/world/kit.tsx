@@ -110,7 +110,11 @@ export function applyCalm(calm: number) {
 export function makeLabel(text: string, opts: { size?: number; color?: string; weight?: number; pill?: boolean } = {}) {
   const { size = 44, color = "#cfe4ff", weight = 600, pill = false } = opts;
   const font = `${weight} ${size}px "Space Grotesk", Inter, Arial, sans-serif`;
-  const ctx = document.createElement("canvas").getContext("2d")!;
+  // Software-backed: a label is drawn once at load but uploaded only when its
+  // station first comes into view, and Chrome can drop tiles of a
+  // GPU-accelerated 2D canvas in between under memory pressure (seen as
+  // chunks missing from letters on Intel/ANGLE).
+  const ctx = document.createElement("canvas").getContext("2d", { willReadFrequently: true })!;
   ctx.font = font;
   const spacing = size * 0.12;
   const w = Math.ceil(ctx.measureText(text).width + spacing * text.length + size);
