@@ -9,7 +9,7 @@ import { Keyboard } from "./Keyboard";
 import { ProjectGallery } from "./ProjectGallery";
 import { Signal } from "./Signal";
 import { applyCalm, applyEnv } from "./kit";
-import { bindStory, intro, story } from "./story";
+import { bindStory, intro, pullBack as pullBackFor, story } from "./story";
 import { Systems } from "./Systems";
 import { Waypoints } from "./Waypoints";
 
@@ -23,6 +23,8 @@ const OBSIDIAN = "#07090d";
 // pointer parallax (desktop), fog depth and the editorial dimming.
 /** The rim lights take on each environment's colour (set by the Rig). */
 const rims: { current: (DirectionalLight | SpotLight | null)[] } = { current: [] };
+/** The key light's colour also follows the chapter (warm only in the hero). */
+const keyLight: { current: DirectionalLight | null } = { current: null };
 
 function Rig({ tier }: { tier: Tier }) {
   const { camera, size, scene, gl } = useThree();
@@ -33,6 +35,7 @@ function Rig({ tier }: { tier: Tier }) {
   const lastScrim = useRef(-1);
   const envColor = useMemo(() => new Color(), []);
   const rimColor = useMemo(() => new Color(), []);
+  const keyColor = useMemo(() => new Color(), []);
   const lastEnv = useRef("");
   const lastFrame = useRef("");
 
@@ -57,7 +60,7 @@ function Rig({ tier }: { tier: Tier }) {
     // Narrow screens: a longer orbit distance so each station (all roughly
     // 7–8 units wide) still fits the narrower horizontal field of view.
     const aspect = size.width / size.height;
-    const pullBack = aspect < 1.7 ? Math.min(2.2, Math.pow(1.7 / aspect, 0.85)) : 1;
+    const pullBack = pullBackFor(aspect);
 
     // Orbit → position: azimuth/elevation/distance around the target. Only
     // part of the narrow-screen pull-back is distance (so the camera never
@@ -83,7 +86,7 @@ function Rig({ tier }: { tier: Tier }) {
     cam.lookAt(look);
     cam.rotateZ(story.roll);
     const fov = MathUtils.radToDeg(2 * Math.atan(Math.tan(MathUtils.degToRad(story.fov) / 2) * lensScale));
-    if (Math.abs(cam.fov - fov) > 0.01) {
+    if (cam.fov !== fov) {
       cam.fov = fov;
       cam.updateProjectionMatrix();
     }
@@ -117,6 +120,11 @@ function Rig({ tier }: { tier: Tier }) {
     fog.color.copy(envColor);
     rimColor.setRGB(story.rimR, story.rimG, story.rimB, SRGBColorSpace);
     rims.current.forEach((l) => l?.color.copy(rimColor));
+    keyColor.setRGB(story.keyR, story.keyG, story.keyB, SRGBColorSpace);
+    keyLight.current?.color.copy(keyColor);
+    if (keyLight.current) keyLight.current.intensity = story.keyI;
+    // The directional rim only; the two hero spot rims keep their own strength.
+    if (rims.current[0]) rims.current[0].intensity = story.rimI;
     applyEnv(story.accR, story.accG, story.accB);
     const key = `${Math.round(story.rimR * 255)} ${Math.round(story.rimG * 255)} ${Math.round(story.rimB * 255)}`;
     if (key !== lastEnv.current) {
@@ -238,6 +246,7 @@ export default function World({ tier, onReady, onError }: Props) {
 
       <ambientLight intensity={0.14} />
       <directionalLight
+        ref={(l) => void (keyLight.current = l)}
         position={[2.5, 7, 4]}
         intensity={2}
         color="#dbe8ff"
@@ -252,8 +261,12 @@ export default function World({ tier, onReady, onError }: Props) {
       />
       {/* Rim lights: their colour follows the chapter's environment (see Rig). */}
       <directionalLight ref={(l) => void (rims.current[0] = l)} position={[-6, 4, -20]} intensity={0.7} color="#3a7bff" />
-      <spotLight ref={(l) => void (rims.current[1] = l)} position={[-5, 3.5, -4]} angle={0.7} penumbra={1} intensity={70} color="#1f74ff" distance={16} />
-      <spotLight ref={(l) => void (rims.current[2] = l)} position={[6, 2.5, -3.5]} angle={0.7} penumbra={1} intensity={45} color="#48a9ff" distance={16} />
+      {/* The two spot rims are aimed at the keyboard and reach nothing else
+          (Phase 34: hiding them changes no pixel in any other chapter). At 70
+          and 45 their steel tint washed the aluminium housing navy; at 30 % they
+          leave a subtle steel edge on the housing and caps. */}
+      <spotLight ref={(l) => void (rims.current[1] = l)} position={[-5, 3.5, -4]} angle={0.7} penumbra={1} intensity={21} color="#1f74ff" distance={16} />
+      <spotLight ref={(l) => void (rims.current[2] = l)} position={[6, 2.5, -3.5]} angle={0.7} penumbra={1} intensity={13.5} color="#48a9ff" distance={16} />
 
       <StudioEnvironment resolution={full ? 256 : 64} />
 
@@ -265,7 +278,7 @@ export default function World({ tier, onReady, onError }: Props) {
           <Systems />
         </>
       )}
-      {stage >= 3 && <ProjectGallery />}
+      {stage >= 3 && <ProjectGallery lite={!full} />}
       {stage >= 4 && (
         <>
           <Constellation />

@@ -116,13 +116,13 @@ export function App() {
     <>
       <a
         href="#main-content"
-        className="sr-only z-[3000] rounded-md bg-soft-white px-4 py-2 text-obsidian focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+        className="sr-only z-[3000] rounded-md bg-text-primary px-4 py-2 text-text-inverse focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
       >
         Skip to content
       </a>
       <a
         href="#site-index"
-        className="sr-only z-[3000] rounded-md bg-soft-white px-4 py-2 text-obsidian focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+        className="sr-only z-[3000] rounded-md bg-text-primary px-4 py-2 text-text-inverse focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
       >
         Skip to section index
       </a>
@@ -130,7 +130,7 @@ export function App() {
       <OpeningScreen />
 
       {/* Journey progress: the one persistent indicator, a hairline at the top edge. */}
-      <div ref={progressRef} aria-hidden="true" className="fixed top-0 left-0 z-[2000] h-[2px] w-0 bg-gradient-to-r from-electric via-ice to-champagne" />
+      <div ref={progressRef} aria-hidden="true" className="fixed top-0 left-0 z-[2000] h-[2px] w-0 bg-gradient-to-r from-accent-primary/60 to-accent-primary" />
 
       <WorldStage />
 
@@ -149,12 +149,12 @@ export function App() {
       <Workbench />
 
       {/* The index rests on its own near-solid surface below the closing scene. */}
-      <footer className="relative z-[1] border-t border-hairline bg-obsidian/95">
+      <footer className="relative z-[1] border-t border-border-subtle bg-background/95">
         <div className="container-page py-12">
           <SiteIndex />
-          <div className="mt-10 flex flex-col items-start justify-between gap-4 border-t border-hairline pt-6 text-sm text-[#a3abb8] min-[521px]:flex-row min-[521px]:items-center">
+          <div className="mt-10 flex flex-col items-start justify-between gap-4 border-t border-border-subtle pt-6 text-sm text-text-muted min-[521px]:flex-row min-[521px]:items-center">
             <p>{`© 2026 ${profile.name}`}</p>
-            <a className="inline-flex min-h-11 items-center hover:text-soft-white" href="#home">
+            <a className="inline-flex min-h-11 items-center hover:text-text-primary" href="#home">
               Back to top ↑
             </a>
           </div>

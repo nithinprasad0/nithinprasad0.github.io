@@ -72,7 +72,15 @@ export function Signal({ lite }: { lite: boolean }) {
     }
     (ghost.material as LineBasicMaterial).opacity = 0.08 * (1 - story.calm * 0.6) * (1 - corridor);
     (ghost.material as LineBasicMaterial).color.copy(ACCENT);
-    if (head.current) (head.current.material as SpriteMaterial).color.copy(ACCENT_LIGHT);
+    if (head.current) {
+      const m = head.current.material as SpriteMaterial;
+      m.color.copy(ACCENT_LIGHT);
+      // Phase 32C: through the project gallery the glowing head is half as
+      // bright on every screen, so it marks the route without competing with
+      // the lit products (it is unchanged in every other chapter).
+      const gallery = smooth(Math.min(story.project + 0.6, PROJECT_COUNT - 0.4 - story.project) * 1.5);
+      m.opacity = 0.75 * (1 - gallery * 0.5);
+    }
   });
 
   return (

@@ -1,6 +1,6 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { CatmullRomCurve3, Vector3 } from "three";
+import { CatmullRomCurve3, MathUtils, Vector3 } from "three";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -65,6 +65,13 @@ export const story = {
   envR: 0.031, envG: 0.039, envB: 0.055,
   accR: 0.224, accG: 0.482, accB: 1,
   rimR: 0.184, rimG: 0.435, rimB: 1,
+  /** Key light colour: warm studio light on the hero keyboard, the original cool white elsewhere. */
+  keyR: 0.859, keyG: 0.91, keyB: 1,
+  /**
+   * Key and rim light intensity (Phase 32C): per chapter, so a product still
+   * life can be lit as a product shot. The defaults are the original values.
+   */
+  keyI: 2, rimI: 0.7,
 };
 
 /** One-time camera arrival on load (not scroll-driven; finishes in ~2.6 s). */
@@ -140,12 +147,13 @@ type Keyframe = { at: number; s: State; ease?: string };
 
 /* -------------------------------------------------------------- Environments */
 const rgb = (h: string) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255);
-/** Background, accent and rim light for one chapter. */
-function env(bg: string, accent: string, rim: string): State {
+/** Background, accent, rim and key light for one chapter. */
+function env(bg: string, accent: string, rim: string, key = "#dbe8ff", keyI = 2, rimI = 0.7): State {
   const [envR, envG, envB] = rgb(bg);
   const [accR, accG, accB] = rgb(accent);
   const [rimR, rimG, rimB] = rgb(rim);
-  return { envR, envG, envB, accR, accG, accB, rimR, rimG, rimB };
+  const [keyR, keyG, keyB] = rgb(key);
+  return { envR, envG, envB, accR, accG, accB, rimR, rimG, rimB, keyR, keyG, keyB, keyI, rimI };
 }
 /**
  * Every chapter's light, so scrolling feels like moving between places rather
@@ -153,25 +161,60 @@ function env(bg: string, accent: string, rim: string): State {
  * one accent among several.
  */
 export const ENV = {
-  /** The signature workstation: obsidian and electric blue. */
-  hero: env("#080a0e", "#397bff", "#2f6fff"),
+  /**
+   * The signature workstation, shot as a product (Phase 24): warm graphite
+   * studio, a warm key light and a low, cool steel rim instead of electric
+   * blue. The accent (the signal it types out) is unchanged.
+   */
+  hero: env("#0b0a09", "#397bff", "#6c7b8b", "#fff3e8"),
   /** About: warm bronze over graphite. */
   about: env("#140f0a", "#d2a26a", "#b8834a"),
   /** Experience: brushed silver under neutral industrial light. */
   experience: env("#101215", "#c5cbd4", "#e3e9f0"),
   projects: [
-    /** InsightGen: deep teal with ice highlights. */
-    env("#04161a", "#a9dfff", "#2fb3c9"),
-    /** Revo: rich plum and violet. */
-    env("#160d1a", "#b59cf0", "#c48ad6"),
-    /** Profexia: indigo in a violet atmosphere. */
-    env("#0b0c22", "#7f95ff", "#a99ae8"),
-    /** Child Vaccination: pearl and soft white, a restrained champagne rim. */
-    env("#121416", "#eef2f6", "#d8c5a1"),
-    /** FaceAttend: cool steel with precise white highlights. */
-    env("#0a0e11", "#eef5fa", "#a9c6d8"),
-    /** GEM: warm champagne over graphite. */
-    env("#15110b", "#d8c5a1", "#c9a66b"),
+    /**
+     * InsightGen: deep teal with ice highlights. Phase 25 (product still
+     * life): a warm-neutral key light, and the same teal rim a little less
+     * saturated, so it edges the aluminium instead of flooding it with cyan.
+     */
+    // Phase 32C: half the rim, so the teal edges the laptop instead of
+    // mirroring across its whole metal deck.
+    // Phase 35: the still-life studio's steel strip now edges the laptop, and
+    // the smoother anodised deck mirrored this directional rim as a cyan
+    // sheet; at 0.08 it leaves only a faint cool edge. Intensity only: the rim
+    // colour (which the 2D atmosphere reads as --env-rim) is unchanged.
+    env("#04161a", "#a9dfff", "#3f939e", "#f4eee6", 2, 0.08),
+    /**
+     * Revo: rich plum and violet. Phase 26 (product still life): a
+     * warm-neutral key light, and the violet rim muted to a dusty plum, so it
+     * edges the phones instead of glowing on them.
+     */
+    env("#160d1a", "#b59cf0", "#9d86a9", "#f4eee6"),
+    /**
+     * Profexia: indigo in a violet atmosphere. Phase 27 (product still
+     * life): a warm-neutral key light, and the violet rim muted to a dusty
+     * lavender, so it edges the graphite laptop instead of tinting it.
+     */
+    // Phase 32C: a slightly stronger key, so the graphite chassis separates
+    // from its dark screen and keyboard.
+    env("#0b0c22", "#7f95ff", "#8f8bb4", "#f4eee6", 2.35),
+    /**
+     * Child Vaccination: pearl and soft white, a restrained champagne rim.
+     * Phase 32C: a near-neutral warm key (was the cool default), so the
+     * printed record reads as paper rather than grey card.
+     */
+    env("#121416", "#eef2f6", "#d8c5a1", "#f1ede6"),
+    /**
+     * FaceAttend: cool steel with precise white highlights. Phase 32C: the
+     * key stays cool but less blue, a little stronger, so the matte housing
+     * keeps its form.
+     */
+    env("#0a0e11", "#eef5fa", "#a9c6d8", "#e6ecf2", 2.25),
+    /**
+     * GEM: warm champagne over graphite. Phase 32C: a warm key (was the cool
+     * default), a little stronger, so the invoice reads as white paper.
+     */
+    env("#15110b", "#d8c5a1", "#c9a66b", "#f6ead8", 2.25),
   ],
   /** Stack: slate with restrained electric accents. */
   stack: env("#0c1118", "#c5cbd4", "#397bff"),
@@ -186,14 +229,71 @@ export const ENV = {
  * arrival to the end of its reading hold), so no two compositions are
  * filmed the same way.
  */
-const PROJECT_SHOTS: { from: [number, number, number]; to: [number, number, number] }[] = [
-  { from: [0.55, 0.28, 12.4], to: [-0.18, 0.16, 11] }, // InsightGen: sweep across the data flow
-  { from: [0.1, 0.85, 11.4], to: [-0.05, 0.42, 9.8] }, // Revo: descend onto the community
-  { from: [-0.8, 0.1, 11.6], to: [0.45, 0.2, 10.2] }, // Profexia: low side pass across the exchange
-  { from: [0.32, 0.95, 11.4], to: [0.05, 0.62, 10.2] }, // Vaccination: overhead on the schedule
-  { from: [0, 0.12, 12.4], to: [0.04, 0.14, 9.6] }, // FaceAttend: frontal push-in
-  { from: [-0.5, 0.5, 16], to: [0.26, 0.34, 14.4] }, // GEM: wide establishing shot of the ecosystem
+type ProjectShot = {
+  from: [number, number, number];
+  to: [number, number, number];
+  /**
+   * Narrow layout (scene above, panel below): the composition's on-screen box
+   * at its reading hold (objects plus name and ILLUSTRATION labels) as
+   * [left, right, top, bottom] around the look target, in units of viewport
+   * height / pullBack(), which makes it the same at every narrow viewport.
+   * Measured from the rendered scenes (Phase 32B).
+   */
+  box: [number, number, number, number];
+  /** Narrow layout: widest share of the viewport width it may fill, [phone, tablet]. */
+  fill: [number, number];
+};
+const PROJECT_SHOTS: ProjectShot[] = [
+  // InsightGen: sweep across the laptop and report. Wide, so it may fill the most.
+  { from: [0.55, 0.28, 12.4], to: [-0.18, 0.16, 11], box: [-0.44, 0.22, -0.36, 0.28], fill: [0.82, 0.66] },
+  // Revo: descend onto the two phones. Tall; a little less width keeps both phones airy.
+  { from: [0.1, 0.85, 11.4], to: [-0.05, 0.42, 9.8], box: [-0.29, 0.35, -0.35, 0.335], fill: [0.76, 0.6] },
+  // Profexia: low side pass across the laptop.
+  { from: [-0.8, 0.1, 11.6], to: [0.45, 0.2, 10.2], box: [-0.325, 0.31, -0.375, 0.3], fill: [0.82, 0.66] },
+  // Vaccination: overhead on the tablet and record card.
+  { from: [0.32, 0.95, 11.4], to: [0.05, 0.62, 10.2], box: [-0.256, 0.36, -0.31, 0.338], fill: [0.8, 0.64] },
+  // FaceAttend: frontal push-in on the monitor. The deepest push-in, so it
+  // starts with the most room to grow.
+  { from: [0, 0.12, 12.4], to: [0.04, 0.14, 9.6], box: [-0.278, 0.28, -0.377, 0.3], fill: [0.74, 0.58] },
+  // GEM: wide shot of the docked phones and clipboard invoice. Short, so width leads.
+  { from: [-0.5, 0.5, 16], to: [0.26, 0.34, 14.4], box: [-0.302, 0.286, -0.266, 0.198], fill: [0.84, 0.62] },
 ];
+
+/**
+ * Narrow screens: how far the camera rig pulls back (distance x lens) so
+ * stations fit the narrower horizontal field of view. Shared with the rig.
+ */
+export function pullBack(aspect: number) {
+  return aspect < 1.7 ? Math.min(2.2, Math.pow(1.7 / aspect, 0.85)) : 1;
+}
+
+/**
+ * Narrow layout only: a lens (zoom) and lens shift fitted per project to the
+ * viewport, so each composition fills the space above its panel instead of
+ * staying a reduced desktop shot. Deterministic in the viewport size and
+ * continuous across widths (no breakpoint jumps): zoom is the largest that
+ * keeps the box within its fill share of the width and within the band
+ * between the top margin and the panel at the reading hold; the shift then
+ * centres the box in that band. Only the lens changes; the camera's
+ * position, angles and path stay exactly as they were.
+ */
+const NARROW_BAND = { top: 0.095, bottom: 0.53 }; // share of viewport height; the panel starts at 0.56 at the hold,
+// and the top margin keeps the first name label clear of the gallery intro card
+function fitNarrow(shot: ProjectShot, w: number, h: number): State {
+  const pb = pullBack(w / h);
+  const [L, R, T, B] = shot.box;
+  const t = Math.min(1, Math.max(0, (w - 430) / (768 - 430)));
+  const fill = shot.fill[0] + (shot.fill[1] - shot.fill[0]) * t;
+  const band = NARROW_BAND.bottom - NARROW_BAND.top;
+  const zoom = Math.min(1.8, Math.max(1, Math.min((fill * w * pb) / ((R - L) * h), (band * pb) / (B - T))));
+  const px = (zoom * h) / pb; // box units to CSS px
+  const centre = ((NARROW_BAND.top + NARROW_BAND.bottom) / 2) * h;
+  return {
+    fov: MathUtils.radToDeg(2 * Math.atan(Math.tan(MathUtils.degToRad(16)) / zoom)),
+    frameX: -(((L + R) / 2) * px) / w,
+    frameY: 0.5 - (centre - ((T + B) / 2) * px) / h,
+  };
+}
 
 /** Camera framing as an orbit: target + azimuth/elevation/distance (+ lens). */
 function orb(t: Vector3, az: number, el: number, dist: number, extra: State = {}): State {
@@ -289,8 +389,11 @@ function buildKeyframes(mobile: boolean): Keyframe[] {
     const wide = !mobile && i === PROJECT_COUNT - 1;
     const fx = i % 2 ? (wide ? -0.245 : -0.26) : 0.26;
     const back = wide ? 1.08 : 1;
-    kf.push({ at: pin, ease: TRAVEL, s: { ...ENV.projects[i], ...orb(P, face + shot.from[0], shot.from[1], shot.from[2] * back), ...side(fx, 0.24), calm: 0.3, project: i, systemsOut: 1, signal: s } });
-    kf.push({ at: pout, ease: HOLD, s: { ...orb(P, face + shot.to[0], shot.to[1], shot.to[2] * back), ...side(fx, 0.24), calm: 0.3, project: i, signal: s + 0.004 } });
+    // Narrow layout: the fitted lens and shift (same for arrival and hold, so
+    // the push-in itself is unchanged). Desktop keeps its framing as it was.
+    const frame = mobile ? fitNarrow(shot, window.innerWidth, vh) : side(fx, 0.24);
+    kf.push({ at: pin, ease: TRAVEL, s: { ...ENV.projects[i], ...orb(P, face + shot.from[0], shot.from[1], shot.from[2] * back), ...frame, calm: 0.3, project: i, systemsOut: 1, signal: s } });
+    kf.push({ at: pout, ease: HOLD, s: { ...orb(P, face + shot.to[0], shot.to[1], shot.to[2] * back), ...frame, calm: 0.3, project: i, signal: s + 0.004 } });
     prevOut = pout;
   });
 
