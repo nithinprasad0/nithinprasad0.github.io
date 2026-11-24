@@ -55,7 +55,7 @@ export function OpeningScreen() {
   return (
     <div
       id="opening"
-      className={`intro fixed inset-0 z-[9999] flex items-center justify-center bg-obsidian ${leaving ? "intro-leave" : ""}`}
+      className={`intro fixed inset-0 z-[9999] flex items-center justify-center bg-background ${leaving ? "intro-leave" : ""}`}
       onPointerDown={skip}
       onAnimationEnd={(e) => {
         if (e.target === e.currentTarget) setDone(true);
@@ -76,7 +76,7 @@ export function OpeningScreen() {
       <button
         type="button"
         onClick={skip}
-        className="absolute right-5 bottom-5 min-h-11 cursor-pointer rounded-full border border-white/40 bg-transparent px-5 py-2 text-sm text-white transition duration-250 hover:bg-white hover:text-obsidian"
+        className="absolute right-5 bottom-5 min-h-11 cursor-pointer rounded-full border border-border-strong bg-transparent px-5 py-2 text-sm text-text-primary transition duration-250 hover:bg-text-primary hover:text-text-inverse"
       >
         Skip intro
       </button>

@@ -31,7 +31,7 @@ export function CuriousClue() {
 
   return (
     <div className="curious absolute z-20 max-[520px]:top-[calc(1.5rem+clamp(176px,50vw,300px)-1.6rem)] max-[850px]:right-5 min-[521px]:max-[850px]:top-[calc(1.5rem+clamp(240px,40vw,340px)-1.6rem)] min-[851px]:top-[64%] min-[851px]:right-[27%] min-[851px]:translate-x-1/2 min-[851px]:text-center">
-      <p className="curious-clue font-display text-[12px] tracking-[0.04em] text-[#a3abb8] min-[851px]:text-[13px]">
+      <p className="curious-clue font-display text-label tracking-[0.01em] text-text-muted">
         Some keys have more to say than others.
       </p>
       <div
@@ -54,8 +54,8 @@ export function CuriousClue() {
               window.dispatchEvent(new CustomEvent("key:tap", { detail: i }));
               if (i === CURIOUS) activateCuriousKey();
             }}
-            className={`grid size-11 cursor-pointer place-items-center rounded-lg border bg-obsidian/80 font-display text-sm font-semibold transition ${
-              i === CURIOUS ? "border-ice/50 text-[#d8ecff]" : "border-white/15 text-[#c9d3e2]"
+            className={`grid size-11 cursor-pointer place-items-center rounded-lg border bg-background/80 font-display text-sm font-semibold transition ${
+              i === CURIOUS ? "border-accent-primary/50 text-accent-primary" : "border-border text-text-secondary"
             }`}
           >
             {letter}
@@ -84,7 +84,7 @@ function outputs(close: () => void): Record<string, { hint: string; out: ReactNo
       out: (
         <>
           <p>{job.approach}</p>
-          <p className="mt-2 text-[#9aa3b1]">— from {job.title}, {job.org}</p>
+          <p className="mt-2 text-text-muted">— from {job.title}, {job.org}</p>
         </>
       ),
     },
@@ -94,7 +94,7 @@ function outputs(close: () => void): Record<string, { hint: string; out: ReactNo
         <ul className="space-y-1">
           {profile.specialisation.map((s) => (
             <li key={s}>
-              <span className="text-ice">▸</span> {s}
+              <span className="text-accent-primary">▸</span> {s}
             </li>
           ))}
         </ul>
@@ -130,7 +130,7 @@ function outputs(close: () => void): Record<string, { hint: string; out: ReactNo
           <ul className="space-y-1">
             {stackPathways.map((p) => (
               <li key={p.title}>
-                <span className="text-[#9aa3b1]">{p.title}:</span> {p.chain.join(" → ")}
+                <span className="text-text-muted">{p.title}:</span> {p.chain.join(" → ")}
               </li>
             ))}
           </ul>
@@ -244,36 +244,36 @@ export function Workbench() {
         }
       }}
     >
-      <header className="wb-titlebar flex items-center gap-3 border-b border-white/10 px-4 py-2.5">
+      <header className="wb-titlebar flex items-center gap-3 border-b border-border px-4 py-2.5">
         <span aria-hidden="true" className="flex gap-1.5">
           {[0, 1, 2].map((k) => (
-            <span key={k} className="size-2.5 rounded-full bg-slate" />
+            <span key={k} className="size-2.5 rounded-full bg-surface-raised" />
           ))}
         </span>
-        <h2 id="workbench-title" ref={heading} tabIndex={-1} className="font-mono text-[13px] text-silver outline-none">
+        <h2 id="workbench-title" ref={heading} tabIndex={-1} className="font-mono text-[13px] text-text-secondary outline-none">
           ~/workbench
         </h2>
-        <button type="button" onClick={close} className="ml-auto inline-flex min-h-11 cursor-pointer items-center rounded-md px-3 text-sm text-[#c9d3e2] hover:bg-white/10 hover:text-white">
+        <button type="button" onClick={close} className="ml-auto inline-flex min-h-11 cursor-pointer items-center rounded-md px-3 text-sm text-text-secondary hover:bg-active hover:text-text-primary">
           Close <span className="sr-only">workbench</span>
         </button>
       </header>
 
-      <div ref={log} className="flex-1 space-y-4 overflow-y-auto px-4 py-4 font-mono text-[13px] leading-relaxed text-[#d5dbe5]" aria-live="polite">
+      <div ref={log} className="flex-1 space-y-4 overflow-y-auto px-4 py-4 font-mono text-[13px] leading-relaxed text-text-secondary" aria-live="polite">
         <div className="wb-line">
-          <p className="text-ice">You found the curious key.</p>
-          <p className="mt-1 text-[#b4bbc7]">Most keys just type. This one opens the workbench. Pick a command:</p>
+          <p className="text-accent-primary">You found the curious key.</p>
+          <p className="mt-1 text-text-secondary">Most keys just type. This one opens the workbench. Pick a command:</p>
         </div>
         {lines.map((l, k) => (
           <div key={k} className="wb-line">
             <p>
-              <span className="text-ice">$</span> {l.cmd}
+              <span className="text-accent-primary">$</span> {l.cmd}
             </p>
-            <div className="mt-1 font-sans text-[14px] text-[#d5dbe5]">{l.out}</div>
+            <div className="mt-1 font-sans text-[14px] text-text-secondary">{l.out}</div>
           </div>
         ))}
       </div>
 
-      <nav aria-label="Workbench commands" className="flex flex-wrap gap-2 border-t border-white/10 px-4 py-3">
+      <nav aria-label="Workbench commands" className="flex flex-wrap gap-2 border-t border-border px-4 py-3">
         {Object.entries(commands).map(([cmd, c]) => (
           <button
             key={cmd}
@@ -281,7 +281,7 @@ export function Workbench() {
             title={c.hint}
             data-active={lines.at(-1)?.cmd === cmd ? "" : undefined}
             onClick={() => setLines((ls) => [...ls, { cmd, out: c.out }].slice(-4))}
-            className="wb-cmd min-h-11 cursor-pointer rounded-md border border-white/12 bg-white/[.04] px-3 font-mono text-[13px] text-[#c9d3e2] transition hover:border-ice/50 hover:text-white"
+            className="wb-cmd min-h-11 cursor-pointer rounded-md border border-border bg-hover px-3 font-mono text-[13px] text-text-secondary transition hover:border-accent-primary/50 hover:text-text-primary"
           >
             {cmd}
           </button>

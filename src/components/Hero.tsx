@@ -39,12 +39,12 @@ export function Hero() {
       ref={section}
       id="home"
       aria-labelledby="hero-title"
-      className="chapter-hero relative isolate flex flex-col overflow-hidden bg-obsidian text-white min-[851px]:min-h-[100svh]"
+      className="chapter-hero relative isolate flex flex-col overflow-hidden bg-background text-text-primary min-[851px]:min-h-[100svh]"
     >
-      {/* Cool ambient glow behind the fallback image (hidden once the 3D world is drawn). */}
+      {/* Warm ambient glow behind the fallback image (hidden once the 3D world is drawn). */}
       <div
         aria-hidden="true"
-        className="hero-glow pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_55%_at_50%_30%,rgba(47,134,255,.16),transparent_70%)] min-[851px]:bg-[radial-gradient(45%_60%_at_70%_55%,rgba(47,134,255,.18),transparent_70%)]"
+        className="hero-glow pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(60%_55%_at_50%_30%,rgba(201,164,106,.10),transparent_70%)] min-[851px]:bg-[radial-gradient(45%_60%_at_70%_55%,rgba(201,164,106,.12),transparent_70%)]"
       />
 
       {/* Phones/tablets: a wide, short band sized from the width, so the row fills it
@@ -57,38 +57,38 @@ export function Hero() {
       <div className="container-page relative z-10 flex flex-1 items-start pb-12 min-[851px]:items-center min-[851px]:pt-10 min-[851px]:pb-12">
         <div className="hero-copy max-w-[560px] min-[851px]:max-w-[620px] min-[851px]:pl-[26px]">
           {/* Professional status label: an incoming role, not current employment. */}
-          <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-ice/25 bg-white/[.04] px-3 py-1.5 font-display text-[11px] font-medium tracking-[0.16em] text-ice uppercase min-[851px]:mb-7 min-[851px]:text-xs">
-            <span aria-hidden="true" className="size-1.5 rounded-full bg-electric shadow-[0_0_8px_rgba(57,123,255,.9)]" />
+          <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-hover px-3 py-1.5 font-display text-meta font-medium tracking-[0.01em] text-text-secondary min-[851px]:mb-7">
+            <span aria-hidden="true" className="size-1.5 rounded-full bg-accent-primary" />
             {profile.status}
           </p>
           <h1
             id="hero-title"
-            className="mb-5 text-[clamp(56px,15vw,112px)] leading-[.83] font-extrabold tracking-[-3px] min-[521px]:tracking-[-4px] min-[851px]:mb-8 min-[851px]:text-[clamp(76px,9.4vw,128px)] min-[851px]:tracking-[-6px]"
+            className="mb-5 font-display text-[clamp(56px,15vw,108px)] leading-[.86] font-bold tracking-[-0.035em] min-[851px]:mb-8 min-[851px]:text-[clamp(76px,9vw,124px)] min-[851px]:tracking-[-0.04em]"
           >
             Nithin
             <br />
             Prasad
           </h1>
 
-          <p className="mb-4 font-display text-[clamp(17px,4.6vw,22px)] leading-snug font-medium tracking-[0.01em] text-ice min-[851px]:mb-6 min-[851px]:text-[clamp(20px,1.9vw,26px)]">
+          <p className="hero-role mb-4 font-display text-[clamp(17px,4.6vw,22px)] leading-snug font-medium tracking-[0.005em] text-accent-primary min-[851px]:mb-6 min-[851px]:text-[clamp(20px,1.9vw,26px)]">
             {profile.designation}
           </p>
 
-          <p className="max-w-[540px] text-base text-[#a9b4c2] min-[521px]:text-lg">{profile.bio}</p>
+          <p className="max-w-[540px] text-base text-text-secondary min-[521px]:text-lg">{profile.bio}</p>
 
           {/* Phones: primary pair, resume, then social pair, in a tidy 2-column grid. */}
           <div className="mt-6 grid grid-cols-2 gap-3 min-[521px]:mt-[38px] min-[521px]:flex min-[521px]:flex-wrap min-[521px]:items-center">
-            <a className="btn btn-dark-primary min-w-0" href="#projects">
+            <a className="btn btn-primary min-w-0" href="#projects">
               View Projects
             </a>
-            <a className="btn btn-dark min-w-0" href={`mailto:${profile.email}`}>
+            <a className="btn btn-secondary min-w-0" href={`mailto:${profile.email}`}>
               Get in Touch
             </a>
-            <ResumeLink className="btn btn-dark btn-icon col-span-2" />
-            <a className="btn btn-dark btn-icon" href={profile.github} target="_blank" rel="noopener noreferrer">
+            <ResumeLink className="btn btn-secondary btn-icon col-span-2" />
+            <a className="btn btn-secondary btn-icon" href={profile.github} target="_blank" rel="noopener noreferrer">
               <GitHubIcon /> GitHub
             </a>
-            <a className="btn btn-dark btn-icon" href={profile.linkedin} target="_blank" rel="noopener noreferrer">
+            <a className="btn btn-secondary btn-icon" href={profile.linkedin} target="_blank" rel="noopener noreferrer">
               <LinkedInIcon /> LinkedIn
             </a>
           </div>

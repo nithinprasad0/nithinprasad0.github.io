@@ -56,7 +56,7 @@ export function MailIcon({ className = "size-[18px]" }: IconProps) {
 }
 
 // Links the existing PDF; `download` suggests a readable file name.
-export function ResumeLink({ className = "btn btn-dark btn-icon" }: { className?: string }) {
+export function ResumeLink({ className = "btn btn-secondary btn-icon" }: { className?: string }) {
   return (
     <a className={className} href={assets.resume} download="Nithin-Prasad-Resume.pdf" type="application/pdf">
       <DownloadIcon /> Download Resume <span className="sr-only">(PDF)</span>

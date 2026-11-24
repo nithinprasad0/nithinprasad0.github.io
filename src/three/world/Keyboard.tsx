@@ -17,6 +17,7 @@ import {
   type SpotLight,
 } from "three";
 import { createGlowTexture, createKeycapGeometry, createLegendTexture, KEY } from "../keycap";
+import { HERO_STUDIO, useStudioMap } from "../StudioEnvironment";
 import { intro, story } from "./story";
 import {
   activateCuriousKey,
@@ -32,10 +33,36 @@ import {
   tap,
 } from "./keyInput";
 
-/** Restrained ice-blue: the keyboard's light, softer than the page's electric accent. */
-export const ELECTRIC = new Color("#5aa6ff");
-/** The curious key's light: whiter and cooler than the others — a hint, not a sign. */
-const CURIOUS_GLOW = new Color("#eef8ff");
+/**
+ * Phase 24 — a product shot, not a gaming peripheral. At rest nothing glows:
+ * dye-sublimated legends are printed, the caps are matte PBT, the housing is
+ * anodised graphite aluminium with one thin brass inlay. Light appears only
+ * where a real keyboard would show it: a warm backlight through a pressed key.
+ */
+const BACKLIGHT = new Color("#ffd2a0");
+/** The curious key's hint: its legend and faint breathing light are brass, not blue. */
+const BRASS = new Color("#c9a46a");
+/**
+ * Phase 34 — hero materials, tuned as a product photograph. Hero only: none of
+ * these values is shared with another scene (the still lifes share the studio
+ * map, HERO_STUDIO, which is deliberately unchanged).
+ */
+/** Dye-sublimated legends: a warm off-white, a little brighter so they read on phones. */
+const LEGEND = "#e4dfd5";
+/**
+ * Graphite PBT: a near-neutral pigment (a touch cool, so the warm key light
+ * doesn't turn the caps brown), each cap only a hair different in tone and a
+ * little more in finish, as moulded caps are. Matte: PBT is rougher than ABS.
+ */
+const CAP_TONE = [0, 0.005, -0.003, 0.002, -0.005, 0.002];
+const CAP_ROUGH = [0.66, 0.62, 0.68, 0.64, 0.61, 0.67];
+const capColor = (i: number) => new Color("#25272a").offsetHSL(0, 0, CAP_TONE[i] ?? 0);
+/** Less studio fill on the caps, so the key light shapes them (lit tops, darker fronts). */
+const CAP_ENV = 0.7;
+/** Anodised aluminium in neutral graphite (was faintly blue). */
+const HOUSING = "#545455";
+/** A dark warm desk that reads as a surface under the keyboard, not a void. */
+const DESK = "#312e2a";
 const LETTERS = "NITHIN".split("");
 const PITCH = KEY.width + KEY.gap;
 export const ROW_WIDTH = LETTERS.length * PITCH + 0.5;
@@ -79,12 +106,14 @@ export function Keyboard({ shadows }: { shadows: boolean }) {
   const sweepRef = useRef<SpotLight>(null);
   const lit = useRef({ legend: 0, led: 0, pool: 0 });
   const { camera, gl } = useThree();
+  // The keyboard's own studio reflections (the rest of the world keeps its own).
+  const env = useStudioMap(HERO_STUDIO, shadows ? 128 : 64);
 
   // Switch housings under the caps: one instanced draw, seen in the gaps as a key goes down.
   const housings = useMemo(() => {
     const mesh = new InstancedMesh(
       new BoxGeometry(0.66, 0.14, 0.66),
-      new MeshStandardMaterial({ color: "#0c0f15", roughness: 0.55, metalness: 0.2 }),
+      new MeshStandardMaterial({ color: "#121212", roughness: 0.72, metalness: 0 }),
       LETTERS.length,
     );
     const m = new Matrix4();
@@ -210,6 +239,12 @@ export function Keyboard({ shadows }: { shadows: boolean }) {
     };
   }, [camera, gl]);
 
+  // The instanced switch housings are built imperatively, so their map is too.
+  useEffect(() => {
+    (housings.material as MeshStandardMaterial).envMap = env;
+    (housings.material as MeshStandardMaterial).needsUpdate = true;
+  }, [env, housings]);
+
   useEffect(
     () => () => {
       geometry.dispose();
@@ -242,47 +277,57 @@ export function Keyboard({ shadows }: { shadows: boolean }) {
       const m = legendRefs.current[i];
       if (m) {
         m.opacity = lit.current.legend;
-        m.emissiveIntensity = lit.current.legend * (2.6 + press * 2.4 + light * 2.2) * boost;
+        // Printed at rest; a pressed key lets its switch light through.
+        m.emissiveIntensity = lit.current.legend * ((press * 0.5 + light * 1.1) * boost + curious * 0.6);
       }
       const u = underRefs.current[i];
-      if (u) u.opacity = lit.current.pool * Math.min(0.6, light * 0.45 + curious);
+      if (u) u.opacity = lit.current.pool * Math.min(0.45, light * 0.35 + curious * 0.7);
     });
-    if (ledRef.current) ledRef.current.emissiveIntensity = lit.current.led * (3 + lightSum * 0.35) * boost;
-    if (glowRef.current) glowRef.current.opacity = lit.current.pool * 0.45 * boost;
+    // The brass inlay warms very slightly while keys are pressed.
+    if (ledRef.current) ledRef.current.emissiveIntensity = lit.current.led * lightSum * 0.06 * boost;
+    // Contact shadow: the keyboard settles onto the desk as it lands.
+    if (glowRef.current) glowRef.current.opacity = lit.current.pool * 0.8;
   });
 
   return (
     <group rotation-y={-0.16}>
       <RoundedBox args={[ROW_WIDTH, PLATE.height, PLATE.depth]} radius={0.08} smoothness={4} position={[0, PLATE.height / 2, 0]} castShadow receiveShadow>
-        {/* Anodised, brushed plate: darker and more metallic than the caps, with
-            a directional (anisotropic) sheen instead of a uniform gloss. */}
+        {/* Bead-blasted, anodised graphite aluminium: metallic but satin, with
+            a faint brushed (anisotropic) direction; no clearcoat. */}
         {shadows ? (
-          <meshPhysicalMaterial color="#0b0d12" metalness={0.92} roughness={0.3} anisotropy={0.7} clearcoat={0.35} clearcoatRoughness={0.3} />
+          <meshPhysicalMaterial color={HOUSING} metalness={0.85} roughness={0.42} anisotropy={0.45} envMap={env} envMapIntensity={1} />
         ) : (
-          <meshStandardMaterial color="#0a0c11" metalness={0.92} roughness={0.3} />
+          <meshStandardMaterial color={HOUSING} metalness={0.85} roughness={0.44} envMap={env} envMapIntensity={1} />
         )}
       </RoundedBox>
 
       <primitive object={housings} />
 
-      {/* Soft floor pool: grounds the keyboard and separates it from the void. */}
-      <mesh rotation-x={-Math.PI / 2} position={[0, -0.02, 0.1]} scale={[ROW_WIDTH + 7, PLATE.depth + 6, 1]}>
+      {/* The desk: a matte surface that takes the key light's falloff (and,
+          on the full tier, the real shadow), fading out at its edges. */}
+      <mesh rotation-x={-Math.PI / 2} position={[0, -0.02, 0.1]} scale={[ROW_WIDTH + 7, PLATE.depth + 6, 1]} receiveShadow={shadows}>
         <planeGeometry />
-        <meshBasicMaterial map={glow} color="#16243d" transparent opacity={0.9} depthWrite={false} toneMapped={false} />
+        <meshStandardMaterial map={glow} color={DESK} roughness={0.9} metalness={0} transparent depthWrite={false} envMap={env} envMapIntensity={0.7} />
+      </mesh>
+      {/* Contact shadow: soft occlusion where the housing meets the desk
+          (all tiers; phones have no shadow maps). */}
+      <mesh rotation-x={-Math.PI / 2} position={[0, 0.002, 0.04]} scale={[ROW_WIDTH + 1.1, PLATE.depth + 1.1, 1]}>
+        <planeGeometry />
+        <meshBasicMaterial ref={glowRef} map={glow} color="#000" transparent opacity={0} depthWrite={false} />
       </mesh>
 
+      {/* A single brushed-brass inlay along the front edge: the one warm metal. */}
       <mesh position={[0, 0.035, PLATE.depth / 2 + 0.004]}>
         <boxGeometry args={[ROW_WIDTH - 0.3, 0.022, 0.012]} />
-        <meshStandardMaterial ref={ledRef} color="#000" emissive={ELECTRIC} emissiveIntensity={0} toneMapped={false} />
+        <meshStandardMaterial ref={ledRef} color="#a8885a" metalness={1} roughness={0.34} emissive={BACKLIGHT} emissiveIntensity={0} envMap={env} envMapIntensity={1.1} />
       </mesh>
-      <pointLight position={[0, 0.12, PLATE.depth / 2 + 0.4]} color={ELECTRIC} intensity={2.2} distance={3.2} />
-      {/* A low warm rim from behind: separates the dark caps from the dark
-          background with a controlled metallic highlight, not more blue. */}
-      <pointLight position={[-3.2, 2.2, -2.6]} color="#ffd2a8" intensity={5} distance={9} decay={2} />
-      <mesh rotation-x={-Math.PI / 2} position={[0, 0.002, 0.25]} scale={[ROW_WIDTH + 3.5, PLATE.depth + 2.6, 1]}>
-        <planeGeometry />
-        <meshBasicMaterial ref={glowRef} map={glow} color={ELECTRIC} transparent opacity={0} blending={AdditiveBlending} depthWrite={false} toneMapped={false} />
-      </mesh>
+      {/* Soft neutral fill from the front-right: opens the shadow side of the
+          caps without flattening them. Phase 34: a true neutral, a little
+          lower, so the warm key light does the shaping. */}
+      <pointLight position={[2.6, 3.2, 5]} color="#e8e9ea" intensity={10} distance={12} decay={2} />
+      {/* A low warm kicker from behind-left: separates the caps' top edges
+          from the dark background (Phase 34: stronger, for a clean edge light). */}
+      <pointLight position={[-3.4, 2.6, -3]} color="#f4ece2" intensity={20} distance={10} decay={2} />
 
       {LETTERS.map((_, i) => (
         <group
@@ -300,12 +345,13 @@ export function Keyboard({ shadows }: { shadows: boolean }) {
             castShadow={shadows}
             receiveShadow={shadows}
           >
-            {/* PBT-like caps: satin body with a light clearcoat sheen on the edges. */}
+            {/* Matte PBT: a dielectric (no metalness) with a soft, textured
+                sheen at grazing angles instead of a glossy clearcoat. */}
             {/* Light tier (phones): standard material — far cheaper shader compile. */}
             {shadows ? (
-              <meshPhysicalMaterial color="#12151b" roughness={0.42} metalness={0.04} clearcoat={0.55} clearcoatRoughness={0.32} sheen={0.25} sheenColor="#2a4f8f" />
+              <meshPhysicalMaterial color={capColor(i)} roughness={CAP_ROUGH[i]} metalness={0} sheen={0.5} sheenRoughness={0.7} sheenColor="#6b6b6b" envMap={env} envMapIntensity={CAP_ENV} />
             ) : (
-              <meshStandardMaterial color="#12151b" roughness={0.38} metalness={0.06} />
+              <meshStandardMaterial color={capColor(i)} roughness={CAP_ROUGH[i]} metalness={0} envMap={env} envMapIntensity={CAP_ENV} />
             )}
             <Decal position={[0, KEY.height / 2, 0]} rotation={[-Math.PI / 2, 0, 0]} scale={[0.6, 0.6, 0.3]}>
               <meshStandardMaterial
@@ -313,13 +359,15 @@ export function Keyboard({ shadows }: { shadows: boolean }) {
                   legendRefs.current[i] = el;
                 }}
                 map={legends[i]}
-                color="#cfe4ff"
-                emissive={i === CURIOUS ? CURIOUS_GLOW : ELECTRIC}
+                color={i === CURIOUS ? BRASS : LEGEND}
+                roughness={0.55}
+                metalness={0}
+                envMap={env}
+                emissive={i === CURIOUS ? BRASS : BACKLIGHT}
                 emissiveMap={legends[i]}
                 emissiveIntensity={0}
                 transparent
                 opacity={0}
-                toneMapped={false}
                 polygonOffset
                 polygonOffsetFactor={-10}
                 depthWrite={false}
@@ -334,7 +382,7 @@ export function Keyboard({ shadows }: { shadows: boolean }) {
                 underRefs.current[i] = el;
               }}
               map={glow}
-              color={i === CURIOUS ? CURIOUS_GLOW : ELECTRIC}
+              color={i === CURIOUS ? BRASS : BACKLIGHT}
               transparent
               opacity={0}
               blending={AdditiveBlending}
@@ -345,7 +393,8 @@ export function Keyboard({ shadows }: { shadows: boolean }) {
         </group>
       ))}
 
-      <spotLight ref={sweepRef} position={[-7, 5, 5]} angle={0.32} penumbra={1} intensity={40} color="#d8e8ff" distance={18} />
+      {/* The opening sweep (timeline unchanged), now a warm studio light. */}
+      <spotLight ref={sweepRef} position={[-7, 5, 5]} angle={0.32} penumbra={1} intensity={40} color="#ffeedd" distance={18} />
     </group>
   );
 }
